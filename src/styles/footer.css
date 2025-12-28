@@ -1,0 +1,79 @@
+/* ============================================
+   FOOTER.CSS
+   Estilos do rodapé do site
+   ============================================ */
+
+footer {
+    margin-top: 40px;
+    padding: 30px 0 20px;
+    background: var(--bg);
+    border-top: 1px solid rgba(148, 163, 184, 0.3);
+    color: var(--text);
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) repeat(2, minmax(0, 1fr));
+    gap: 24px;
+    margin-bottom: 20px;
+}
+
+.footer-title {
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.footer-links li {
+    font-size: 13px;
+}
+
+.footer-links a {
+    color: var(--muted);
+    transition: color 0.15s ease-out;
+}
+
+.footer-links a:hover {
+    color: var(--primary);
+}
+
+.footer-bottom {
+    border-top: 1px solid rgba(148, 163, 184, 0.4);
+    padding-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.footer-bottom span:last-child {
+    color: var(--primary);
+    cursor: pointer;
+}
+
+.footer-bottom span:last-child:hover {
+    text-decoration: underline;
+}
+
+/* -------- Responsivo -------- */
+@media (max-width: 720px) {
+    .footer-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        gap: 6px;
+        text-align: center;
+    }
+}

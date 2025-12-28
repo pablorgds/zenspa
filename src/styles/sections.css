@@ -1,0 +1,230 @@
+/* ============================================
+   SECTIONS.CSS
+   Estilos para:
+   - Chips/Filtros
+   - Cards de serviços
+   - Lista de passos (Como funciona)
+   - Cards de planos
+   - CTA "Sou profissional / salão"
+   ============================================ */
+
+/* ------------- Chips (Filtros) ------------- */
+.chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-size: 11px;
+}
+
+.chip {
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: #ffffff;
+    border: 1px solid rgba(148, 163, 184, 0.6);
+    font-size: 12px;
+    cursor: pointer;
+    transition: 0.15s ease-out;
+}
+
+.chip:hover {
+    background: var(--primary-light);
+}
+
+.chip.active {
+    background: var(--primary);
+    color: #ffffff;
+    border-color: transparent;
+}
+
+/* ------------- Cards de Serviços ------------- */
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.card {
+    background: #ffffff;
+    padding: 14px;
+    border-radius: 16px;
+    border: 1px solid rgba(148, 163, 184, 0.4);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    transition: box-shadow 0.2s ease-out;
+}
+
+.card:hover {
+    box-shadow: 0 8px 22px rgba(15, 23, 42, 0.12);
+}
+
+.card-tag {
+    background: var(--primary-light);
+    color: var(--primary);
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    width: fit-content;
+}
+
+.card-title {
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.card-text {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.45;
+}
+
+.card-footer {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.price {
+    font-weight: 600;
+}
+
+.duration {
+    font-size: 12px;
+    color: var(--muted);
+}
+
+/* ------------- COMO FUNCIONA (Passos) ------------- */
+
+.steps-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.step {
+    background: #ffffff;
+    padding: 12px;
+    border-radius: 16px;
+    border: 1px dashed rgba(148, 163, 184, 0.7);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.step-number {
+    width: 24px;
+    height: 24px;
+    background: var(--primary);
+    color: #ffffff;
+    font-weight: bold;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.step-title {
+    font-weight: 600;
+}
+
+/* ------------- PLANOS (Bronze, Prata, Ouro) ------------- */
+
+.plans-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    align-items: stretch;
+}
+
+.plan-card {
+    background: #ffffff;
+    padding: 14px;
+    border-radius: 20px;
+    border: 1px solid rgba(148, 163, 184, 0.7);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-height: 260px; /* mantém altura visual consistente */
+    position: relative;
+}
+
+.plan-card:hover {
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+}
+
+.plan-highlight {
+    border-color: var(--primary);
+    box-shadow: var(--shadow-soft);
+}
+
+.plan-badge {
+    position: absolute;
+    top: -10px;
+    right: 16px;
+    font-size: 10px;
+    padding: 4px 8px;
+    border-radius: 999px;
+    background: var(--accent);
+    color: #7c2d12;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.plan-name {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.plan-price {
+    font-size: 18px;
+    font-weight: 700;
+    margin-top: -4px;
+}
+
+.plan-price span {
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--muted);
+}
+
+.plan-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 13px;
+    color: var(--muted);
+}
+
+.plan-card .btn {
+    margin-top: auto;
+    width: fit-content;
+}
+
+/* ------------- CTA Profissionais / Salões ------------- */
+
+.cta-profissional {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* ------------- RESPONSIVIDADE ------------- */
+@media (max-width: 900px) {
+    .cards-grid,
+    .steps-grid,
+    .plans-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 720px) {
+    .cards-grid,
+    .steps-grid,
+    .plans-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}

@@ -1,0 +1,13 @@
+version: "3.9"
+
+services:
+  zenspa-web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: prod
+    container_name: zenspa-web-prod
+    ports:
+      - "8080:80"
+    environment:
+      - NODE_ENV=production

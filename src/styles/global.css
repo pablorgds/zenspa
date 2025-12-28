@@ -1,0 +1,163 @@
+/* === Reset básico e variáveis === */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+:root {
+    --primary: #2e6f6c;
+    --primary-light: #e3f3f1;
+    --accent: #f4b88a;
+    --bg: #f7f7f7;
+    --text: #1f2933;
+    --muted: #6b7280;
+    --radius-lg: 16px;
+    --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.15);
+}
+
+html,
+body,
+#root {
+    min-height: 100%;
+}
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+/* === Layout base === */
+.page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 16px;
+}
+
+/* === Botões genéricos === */
+button {
+    font: inherit;
+    color: inherit;
+    background: none;
+    border: none;
+}
+
+.btn {
+    border-radius: 999px;
+    padding: 8px 18px;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.16s ease-out, box-shadow 0.16s ease-out, background 0.16s ease-out;
+    white-space: nowrap;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: #f9fafb;
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.25);
+}
+
+.btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 18px 40px rgba(15, 23, 42, 0.3);
+    background: #255a57;
+}
+
+.btn-outline {
+    border: 1px solid rgba(148, 163, 184, 0.7);
+    background: white;
+    color: var(--text);
+}
+
+.btn-outline:hover {
+    background: var(--primary-light);
+}
+
+/* === Seções compartilhadas === */
+.section {
+    padding: 24px 0;
+}
+
+.section-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    gap: 12px;
+}
+
+.section-title {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.section-subtitle {
+    font-size: 13px;
+    color: var(--muted);
+    max-width: 420px;
+}
+
+/* Grids genéricos (cards, passos, planos) */
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.steps-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.plans-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+}
+
+/* Responsivo global */
+@media (max-width: 900px) {
+    .cards-grid,
+    .steps-grid,
+    .plans-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 720px) {
+    .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .cards-grid,
+    .steps-grid,
+    .plans-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}

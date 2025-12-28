@@ -1,0 +1,25 @@
+version: "3.9"
+
+services:
+  zenspa-web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dev
+    container_name: zenspa-web
+    ports:
+      - "5173:5173"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+    command: npm run dev -- --host 0.0.0.0 --port 5173
+
+    develop:
+      watch:
+        - action: sync
+          path: .
+          target: /app
+        - action: rebuild
+          path: package.json

@@ -1,0 +1,35 @@
+/* src/index.css – reset bem simples só pro projeto não brigar com o zenspa.css */
+
+:root {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    line-height: 1.5;
+    color-scheme: light;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+}
+
+body {
+    background: #f7f7f7; /* mesmo bg do zenspa.css */
+    color: #1f2933;
+}
+
+/* Deixa button “neutro” pra não brigar com .btn e .chip */
+button {
+    font: inherit;
+    color: inherit;
+    background: none;
+    border: none;
+    padding: 0;
+}

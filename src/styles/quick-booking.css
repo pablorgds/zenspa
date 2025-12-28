@@ -1,0 +1,86 @@
+.hero-card {
+    background: #fefefe;
+    border-radius: 26px;
+    padding: 18px 18px 16px;
+    box-shadow: var(--shadow-soft);
+    border: 1px solid rgba(15, 23, 42, 0.05);
+}
+
+.hero-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.hero-card-title {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.hero-card-sub {
+    font-size: 11px;
+    color: var(--muted);
+}
+
+.hero-card-badge {
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: var(--primary-light);
+    color: var(--primary);
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 12px;
+}
+
+.form-field label {
+    color: var(--muted);
+}
+
+.form-field select,
+.form-field input {
+    border-radius: 999px;
+    border: 1px solid rgba(148, 163, 184, 0.7);
+    padding: 6px 10px;
+    font-size: 12px;
+    outline: none;
+    background: #f9fafb;
+}
+
+.form-field select:focus,
+.form-field input:focus {
+    border-color: var(--primary);
+    background: #ffffff;
+}
+
+.hero-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: 5px;
+}
+
+.hero-card-footer small {
+    font-size: 11px;
+    color: var(--muted);
+}
+
+@media (max-width: 900px) {
+    .hero-card {
+        max-width: 380px;
+        margin: 0 auto;
+    }
+}
