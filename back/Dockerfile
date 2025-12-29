@@ -23,6 +23,9 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Set working directory
 WORKDIR /var/www
 
+# Fix PHP-FPM to listen on all interfaces
+RUN sed -i 's/listen = 127.0.0.1:9000/listen = 9000/' /usr/local/etc/php-fpm.d/www.conf
+
 # Copy existing application directory contents
 COPY . /var/www
 

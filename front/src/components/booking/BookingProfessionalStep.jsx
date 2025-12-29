@@ -7,6 +7,7 @@ const BookingProfessionalStep = ({ bookingData, onBack, onConfirm }) => {
     const [selectedTime, setSelectedTime] = useState(null);
     const [professionalsList, setProfessionalsList] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [filteredProfessionals, setFilteredProfessionals] = useState([]);
 
     useEffect(() => {
         api.getProfessionals().then(data => {
@@ -18,23 +19,27 @@ const BookingProfessionalStep = ({ bookingData, onBack, onConfirm }) => {
         });
     }, []);
 
-    if (!bookingData || loading) return null;
+    // Filtra profissionais por serviço e período
+    useEffect(() => {
+        if (!bookingData || professionalsList.length === 0) {
+            setFilteredProfessionals([]);
+            return;
+        }
 
-    const { servico, periodo, data } = bookingData;
+        const filtered = professionalsList.filter((pro) => {
+            const matchesService = pro.specialties.includes(bookingData.servico);
+            return matchesService;
+        });
+        setFilteredProfessionals(filtered);
+    }, [professionalsList, bookingData]);
 
     // Normaliza período
     const normalizedPeriod =
-        periodo === "Qualquer horário" || periodo === "" ? null : periodo;
+        bookingData?.periodo === "Qualquer horário" || bookingData?.periodo === "" ? null : bookingData?.periodo;
 
-    // Filtra profissionais por serviço e período
-    const filteredProfessionals = useMemo(() => {
-        return professionalsList.filter((pro) => {
-            const matchesService = pro.specialties.includes(servico);
-            if (!matchesService) return false;
+    if (!bookingData || loading) return null;
 
-            return true;
-        });
-    }, [professionalsList, servico]);
+    const { servico, periodo, data } = bookingData;
 
     // Horários Mockados (o banco de dados por enquanto não tem slots reais)
     const MOCK_SLOTS = {
