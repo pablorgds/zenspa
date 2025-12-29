@@ -3,7 +3,7 @@ version: "3.9"
 services:
   zenspa-web:
     build:
-      context: .
+      context: ./front
       dockerfile: Dockerfile
       target: prod
     container_name: zenspa-web-prod
@@ -11,3 +11,31 @@ services:
       - "8080:80"
     environment:
       - NODE_ENV=production
+
+  zenspa-api:
+    build:
+      context: ./back
+      dockerfile: Dockerfile
+    container_name: zenspa-api-prod
+    environment:
+      - APP_ENV=production
+      - DB_CONNECTION=mysql
+      - DB_HOST=zenspa-db
+      - DB_PORT=3306
+      - DB_DATABASE=zenspa
+      - DB_USERNAME=zenspa_user
+      - DB_PASSWORD=zenspa_pass
+    networks:
+      - zenspa-network
+
+  zenspa-nginx:
+    image: nginx:stable-alpine
+    container_name: zenspa-nginx-prod
+    ports:
+      - "8000:80"
+    volumes:
+      - ./back/nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - zenspa-api
+    networks:
+      - zenspa-network

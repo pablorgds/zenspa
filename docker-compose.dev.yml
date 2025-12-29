@@ -3,23 +3,71 @@ version: "3.9"
 services:
   zenspa-web:
     build:
-      context: .
+      context: ./front
       dockerfile: Dockerfile
       target: dev
     container_name: zenspa-web
     ports:
       - "5173:5173"
     volumes:
-      - .:/app
+      - ./front:/app
       - /app/node_modules
     environment:
       - NODE_ENV=development
     command: npm run dev -- --host 0.0.0.0 --port 5173
+    networks:
+      - zenspa-network
 
-    develop:
-      watch:
-        - action: sync
-          path: .
-          target: /app
-        - action: rebuild
-          path: package.json
+  zenspa-api:
+    build:
+      context: ./back
+      dockerfile: Dockerfile
+    container_name: zenspa-api
+    volumes:
+      - ./back:/var/www
+    environment:
+      - DB_CONNECTION=mysql
+      - DB_HOST=zenspa-db
+      - DB_PORT=3306
+      - DB_DATABASE=zenspa
+      - DB_USERNAME=zenspa_user
+      - DB_PASSWORD=zenspa_pass
+    depends_on:
+      - zenspa-db
+    networks:
+      - zenspa-network
+
+  zenspa-nginx:
+    image: nginx:stable-alpine
+    container_name: zenspa-nginx
+    ports:
+      - "8000:80"
+    volumes:
+      - ./back:/var/www
+      - ./back/nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - zenspa-api
+    networks:
+      - zenspa-network
+
+  zenspa-db:
+    image: mysql:8.0
+    container_name: zenspa-db
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_DATABASE=zenspa
+      - MYSQL_USER=zenspa_user
+      - MYSQL_PASSWORD=zenspa_pass
+      - MYSQL_ROOT_PASSWORD=root_pass
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - zenspa-network
+
+networks:
+  zenspa-network:
+    driver: bridge
+
+volumes:
+  mysql_data:
