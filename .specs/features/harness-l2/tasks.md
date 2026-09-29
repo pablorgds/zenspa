@@ -376,10 +376,10 @@ T23
 
 **Done when**:
 
-- [ ] O corpo manda rodar `composer test` em `zenspa/back` e `npm run lint` em `zenspa/front`
-- [ ] Os dois `SKILL.md` citados continuam com frontmatter `name` e `description`, e cada `description` tem 40 caracteres ou mais
-- [ ] Nenhum dos dois `SKILL.md` é reescrito
-- [ ] Gate build: o comando contém as duas strings e as duas descriptions passam de 40 caracteres
+- [x] O corpo manda rodar `composer test` em `zenspa/back` e `npm run lint` em `zenspa/front`
+- [x] Os dois `SKILL.md` citados continuam com frontmatter `name` e `description`, e cada `description` tem 40 caracteres ou mais
+- [x] Nenhum dos dois `SKILL.md` é reescrito
+- [x] Gate build: o comando contém as duas strings e as duas descriptions passam de 40 caracteres
 
 **Tests**: none
 **Gate**: build

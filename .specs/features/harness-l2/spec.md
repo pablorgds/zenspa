@@ -219,9 +219,9 @@ A nota está em L1 (contexto 8/20 = 40%). Os 28 checks reprovados somam 84 ponto
 | HS-06 | P1: Contexto | Specify | Implementing |
 | HS-07 | P1: Contexto | Specify | Implementing |
 | HS-08 | P1: Skills | Specify | Pending |
-| HS-09 | P1: Skills | Specify | Pending |
-| HS-10 | P1: Skills | Specify | Pending |
-| HS-11 | P1: Skills | Specify | Pending |
+| HS-09 | P1: Skills | Specify | Implementing |
+| HS-10 | P1: Skills | Specify | Implementing |
+| HS-11 | P1: Skills | Specify | Implementing |
 | HS-12 | P1: Higiene | Specify | Pending |
 | HS-13 | P1: Higiene | Specify | Implementing |
 | HS-14 | P1: Higiene | Specify | Implementing |
