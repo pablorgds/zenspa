@@ -1,0 +1,6 @@
+---
+description: Regra do frontend quando o arquivo aberto é JS ou JSX.
+globs: "front/**/*.{js,jsx}"
+---
+
+Neste diretório, siga os componentes React que já existem.

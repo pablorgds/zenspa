@@ -321,10 +321,10 @@ T23
 
 **Done when**:
 
-- [ ] O frontmatter tem `description` e `globs: front/**/*.{js,jsx}`
-- [ ] O arquivo não define `alwaysApply: true`
-- [ ] O arquivo tem 500 linhas ou menos
-- [ ] Gate build: o glob está no frontmatter
+- [x] O frontmatter tem `description` e `globs: front/**/*.{js,jsx}`
+- [x] O arquivo não define `alwaysApply: true`
+- [x] O arquivo tem 500 linhas ou menos
+- [x] Gate build: o glob está no frontmatter
 
 **Tests**: none
 **Gate**: build
