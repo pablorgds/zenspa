@@ -211,50 +211,50 @@ A nota está em L1 (contexto 8/20 = 40%). Os 28 checks reprovados somam 84 ponto
 
 | Requirement ID | Story | Phase | Status |
 | -------------- | ----- | ----- | ------ |
-| HS-01 | P1: Contexto | Specify | Implementing |
-| HS-02 | P1: Contexto | Specify | Implementing |
-| HS-03 | P1: Contexto | Specify | Implementing |
-| HS-04 | P1: Contexto | Specify | Implementing |
-| HS-05 | P1: Contexto | Specify | Implementing |
-| HS-06 | P1: Contexto | Specify | Implementing |
-| HS-07 | P1: Contexto | Specify | Implementing |
-| HS-08 | P1: Skills | Specify | Implementing |
-| HS-09 | P1: Skills | Specify | Implementing |
-| HS-10 | P1: Skills | Specify | Implementing |
-| HS-11 | P1: Skills | Specify | Implementing |
-| HS-12 | P1: Higiene | Specify | Implementing |
-| HS-13 | P1: Higiene | Specify | Implementing |
-| HS-14 | P1: Higiene | Specify | Implementing |
-| HS-15 | P1: Higiene | Specify | Implementing |
-| HS-16 | P1: Higiene | Specify | Implementing |
-| HS-17 | P1: Higiene | Specify | Implementing |
-| HS-18 | P1: Higiene | Specify | Implementing |
-| HS-19 | P1: Higiene | Specify | Implementing |
-| HS-20 | P2: Sensores | Specify | Implementing |
-| HS-21 | P2: Sensores | Specify | Implementing |
-| HS-22 | P2: Sensores | Specify | Implementing |
-| HS-23 | P2: Sensores | Specify | Implementing |
-| HS-24 | P2: Sensores | Specify | Implementing |
-| HS-25 | P2: Sensores | Specify | Implementing |
-| HS-26 | P2: Sensores | Specify | Implementing |
-| HS-27 | P2: CI | Specify | Implementing |
-| HS-28 | P2: CI | Specify | Implementing |
-| HS-29 | P2: CI | Specify | Implementing |
-| HS-30 | P2: CI | Specify | Implementing |
-| HS-31 | P2: CI | Specify | Implementing |
-| HS-32 | P2: CI | Specify | Implementing |
-| HS-33 | P2: Hooks | Specify | Implementing |
-| HS-34 | P2: Hooks | Specify | Implementing |
-| HS-35 | P2: Hooks | Specify | Implementing |
-| HS-36 | P2: Hooks | Specify | Implementing |
-| HS-37 | P2: Hooks | Specify | Implementing |
-| HS-38 | P2: Hooks | Specify | Implementing |
-| HS-39 | P2: Hooks | Specify | Implementing |
-| HS-40 | P2: Subagente | Specify | Implementing |
-| HS-41 | P2: Subagente | Specify | Implementing |
-| HS-42 | P2: Subagente | Specify | Implementing |
+| HS-01 | P1: Contexto | Specify | Verified |
+| HS-02 | P1: Contexto | Specify | Verified |
+| HS-03 | P1: Contexto | Specify | Verified |
+| HS-04 | P1: Contexto | Specify | Verified |
+| HS-05 | P1: Contexto | Specify | Verified |
+| HS-06 | P1: Contexto | Specify | Verified |
+| HS-07 | P1: Contexto | Specify | Verified |
+| HS-08 | P1: Skills | Specify | Verified |
+| HS-09 | P1: Skills | Specify | Verified |
+| HS-10 | P1: Skills | Specify | Verified |
+| HS-11 | P1: Skills | Specify | Verified |
+| HS-12 | P1: Higiene | Specify | Verified |
+| HS-13 | P1: Higiene | Specify | Verified |
+| HS-14 | P1: Higiene | Specify | Verified |
+| HS-15 | P1: Higiene | Specify | Verified |
+| HS-16 | P1: Higiene | Specify | Verified |
+| HS-17 | P1: Higiene | Specify | Verified |
+| HS-18 | P1: Higiene | Specify | Verified |
+| HS-19 | P1: Higiene | Specify | Verified |
+| HS-20 | P2: Sensores | Specify | Verified |
+| HS-21 | P2: Sensores | Specify | Verified |
+| HS-22 | P2: Sensores | Specify | Verified |
+| HS-23 | P2: Sensores | Specify | Verified |
+| HS-24 | P2: Sensores | Specify | Verified |
+| HS-25 | P2: Sensores | Specify | Verified |
+| HS-26 | P2: Sensores | Specify | Verified |
+| HS-27 | P2: CI | Specify | Verified |
+| HS-28 | P2: CI | Specify | Verified |
+| HS-29 | P2: CI | Specify | Verified |
+| HS-30 | P2: CI | Specify | Verified |
+| HS-31 | P2: CI | Specify | Verified |
+| HS-32 | P2: CI | Specify | Verified |
+| HS-33 | P2: Hooks | Specify | Verified |
+| HS-34 | P2: Hooks | Specify | Verified |
+| HS-35 | P2: Hooks | Specify | Verified |
+| HS-36 | P2: Hooks | Specify | Verified |
+| HS-37 | P2: Hooks | Specify | Verified |
+| HS-38 | P2: Hooks | Specify | Verified |
+| HS-39 | P2: Hooks | Specify | Verified |
+| HS-40 | P2: Subagente | Specify | Verified |
+| HS-41 | P2: Subagente | Specify | Verified |
+| HS-42 | P2: Subagente | Specify | Verified |
 
-**Coverage:** 42 total, 0 mapped to tasks, 42 unmapped
+**Coverage:** 42 total, 42 mapped to tasks, 0 unmapped
 
 ---
 
