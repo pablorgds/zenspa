@@ -267,10 +267,10 @@ T23
 
 **Done when**:
 
-- [ ] O frontmatter tem `description` e `alwaysApply: true`, e não define `globs`
-- [ ] O corpo diz que arquivos `.env` não entram no stage, que testes não são enfraquecidos nem apagados para ficar verde, e que rotas admin exigem `is_admin`
-- [ ] O arquivo tem 500 linhas ou menos
-- [ ] Gate build: o frontmatter e as três frases estão no arquivo
+- [x] O frontmatter tem `description` e `alwaysApply: true`, e não define `globs`
+- [x] O corpo diz que arquivos `.env` não entram no stage, que testes não são enfraquecidos nem apagados para ficar verde, e que rotas admin exigem `is_admin`
+- [x] O arquivo tem 500 linhas ou menos
+- [x] Gate build: o frontmatter e as três frases estão no arquivo
 
 **Tests**: none
 **Gate**: build

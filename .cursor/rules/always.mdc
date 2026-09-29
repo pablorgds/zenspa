@@ -1,0 +1,10 @@
+---
+description: Regras do ZenSpa que valem para qualquer arquivo aberto.
+alwaysApply: true
+---
+
+Arquivos `.env` não entram no stage.
+
+Testes não são enfraquecidos nem apagados para ficar verde.
+
+Rotas admin exigem `is_admin`.
