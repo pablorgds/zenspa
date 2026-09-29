@@ -159,12 +159,12 @@ T23
 
 **Done when**:
 
-- [ ] O arquivo contém `.env`, `.env.*` e `!.env.example`, e o restante do arquivo permanece
-- [ ] `git -C zenspa check-ignore` sai 0 para `.env.docker`, `front/.env` e `back/.env`
-- [ ] `git check-ignore -v` em `.env.docker` e `front/.env` cita `zenspa/.gitignore`
-- [ ] Os três arquivos ainda existem no disco
-- [ ] `back/.env.example` continua não ignorado
-- [ ] Gate build: os três `check-ignore` passam e os arquivos existem
+- [x] O arquivo contém `.env`, `.env.*` e `!.env.example`, e o restante do arquivo permanece
+- [x] `git -C zenspa check-ignore` sai 0 para `.env.docker`, `front/.env` e `back/.env`
+- [x] `git check-ignore -v` em `.env.docker` e `front/.env` cita `zenspa/.gitignore`
+- [x] Os três arquivos ainda existem no disco
+- [x] `back/.env.example` continua não ignorado
+- [x] Gate build: os três `check-ignore` passam e os arquivos existem
 
 **Tests**: none
 **Gate**: build
