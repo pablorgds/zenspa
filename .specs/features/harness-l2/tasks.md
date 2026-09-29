@@ -657,11 +657,11 @@ T23
 
 **Done when**:
 
-- [ ] O script lê `file_path` do JSON no stdin
-- [ ] Se o caminho está sob `front/`, o script invoca Prettier nesse arquivo (`PRETTIER_BIN` substitui o executável nos testes; o default é `npx`)
-- [ ] Se o caminho não está sob `front/`, o script sai 0 e não invoca Prettier
-- [ ] `zenspa/.cursor/hooks/format-on-edit.test.mjs` cobre 2 casos: um path sob `front/` registra o arquivo no recorder; um path sob `back/` não registra
-- [ ] Gate quick: `node --test .cursor/hooks` de `zenspa` mostra 10 testes passando (8 do gate + 2 deste script)
+- [x] O script lê `file_path` do JSON no stdin
+- [x] Se o caminho está sob `front/`, o script invoca Prettier nesse arquivo (`PRETTIER_BIN` substitui o executável nos testes; o default é `npx`)
+- [x] Se o caminho não está sob `front/`, o script sai 0 e não invoca Prettier
+- [x] `zenspa/.cursor/hooks/format-on-edit.test.mjs` cobre 2 casos: um path sob `front/` registra o arquivo no recorder; um path sob `back/` não registra
+- [x] Gate quick: `node --test .cursor/hooks` de `zenspa` mostra 10 testes passando (8 do gate + 2 deste script)
 
 **Tests**: unit
 **Gate**: quick
