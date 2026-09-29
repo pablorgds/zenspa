@@ -188,9 +188,9 @@ T23
 
 **Done when**:
 
-- [ ] O arquivo é o texto padrão da licença MIT
-- [ ] A linha de copyright é `Copyright (c) 2026 ZenSpa`
-- [ ] Gate build: o arquivo existe e contém `MIT License`
+- [x] O arquivo é o texto padrão da licença MIT
+- [x] A linha de copyright é `Copyright (c) 2026 ZenSpa`
+- [x] Gate build: o arquivo existe e contém `MIT License`
 
 **Tests**: none
 **Gate**: build
