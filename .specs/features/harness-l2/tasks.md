@@ -569,11 +569,11 @@ T23
 
 **Done when**:
 
-- [ ] O YAML contém as strings `phpunit` e `eslint`
-- [ ] O passo de teste roda `composer test` ou `php artisan test` em `zenspa/back` e não redefine o sqlite em memória que já está no `phpunit.xml`
-- [ ] O passo de lint roda `npm run lint` em `zenspa/front`
-- [ ] O job usa `ubuntu-latest`, PHP 8.2 e Node 22
-- [ ] Gate build: as quatro strings `phpunit`, `eslint`, `composer test` (ou `php artisan test`) e `npm run lint` estão no arquivo
+- [x] O YAML contém as strings `phpunit` e `eslint`
+- [x] O passo de teste roda `composer test` ou `php artisan test` em `zenspa/back` e não redefine o sqlite em memória que já está no `phpunit.xml`
+- [x] O passo de lint roda `npm run lint` em `zenspa/front`
+- [x] O job usa `ubuntu-latest`, PHP 8.2 e Node 22
+- [x] Gate build: as quatro strings `phpunit`, `eslint`, `composer test` (ou `php artisan test`) e `npm run lint` estão no arquivo
 
 **Tests**: none
 **Gate**: build

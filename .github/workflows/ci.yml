@@ -1,0 +1,27 @@
+name: CI
+on:
+  push:
+  pull_request:
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install API dependencies
+        working-directory: back
+        run: composer install --no-interaction --prefer-dist
+      - name: phpunit
+        working-directory: back
+        run: composer test
+      - name: Install frontend dependencies
+        working-directory: front
+        run: npm ci
+      - name: eslint
+        working-directory: front
+        run: npm run lint

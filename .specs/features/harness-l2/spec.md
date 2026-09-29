@@ -238,9 +238,9 @@ A nota está em L1 (contexto 8/20 = 40%). Os 28 checks reprovados somam 84 ponto
 | HS-25 | P2: Sensores | Specify | Implementing |
 | HS-26 | P2: Sensores | Specify | Implementing |
 | HS-27 | P2: CI | Specify | Pending |
-| HS-28 | P2: CI | Specify | Pending |
-| HS-29 | P2: CI | Specify | Pending |
-| HS-30 | P2: CI | Specify | Pending |
+| HS-28 | P2: CI | Specify | Implementing |
+| HS-29 | P2: CI | Specify | Implementing |
+| HS-30 | P2: CI | Specify | Implementing |
 | HS-31 | P2: CI | Specify | Pending |
 | HS-32 | P2: CI | Specify | Pending |
 | HS-33 | P2: Hooks | Specify | Pending |
