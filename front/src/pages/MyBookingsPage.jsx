@@ -10,21 +10,22 @@ const formatCurrency = (value) =>
     value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
 const statusLabel = (status) => {
-    if (status === "confirmed") return "Confirmado";
-    if (status === "completed") return "Concluído";
-    if (status === "cancelled") return "Cancelado";
-    return "Desconhecido";
+    if (status === "confirmado") return "Confirmado";
+    if (status === "concluído") return "Concluído";
+    if (status === "cancelado") return "Cancelado";
+    if (status === "pendente") return "Pendente";
+    return status ?? "Desconhecido";
 };
 
 const statusStyle = (status) => {
-    if (status === "confirmed") {
+    if (status === "confirmado" || status === "pendente") {
         return {
             background: "var(--primary-light)",
             color: "var(--primary)",
             border: "1px solid rgba(46, 111, 108, 0.25)",
         };
     }
-    if (status === "completed") {
+    if (status === "concluído") {
         return {
             background: "rgba(34,197,94,0.08)",
             color: "rgba(22,101,52,1)",
@@ -112,7 +113,7 @@ const BookingCard = ({ booking, onReschedule, onCancel, onViewDetails }) => {
                         type="button"
                         className="btn btn-outline"
                         onClick={() => onReschedule(booking)}
-                        disabled={booking.status !== "confirmed"}
+                        disabled={booking.status !== "confirmado" && booking.status !== "pendente"}
                     >
                         Reagendar
                     </button>
@@ -121,7 +122,7 @@ const BookingCard = ({ booking, onReschedule, onCancel, onViewDetails }) => {
                         type="button"
                         className="btn btn-primary"
                         onClick={() => onCancel(booking)}
-                        disabled={booking.status !== "confirmed"}
+                        disabled={booking.status !== "confirmado" && booking.status !== "pendente"}
                     >
                         Cancelar
                     </button>
@@ -139,15 +140,22 @@ const MyBookingsPage = () => {
     const navigate = useNavigate();
     const [bookings, setBookings] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    const loadData = () => {
+        setLoading(true);
+        setError(null);
+        api.getBookings()
+            .then(data => setBookings(data))
+            .catch(() => setError("Erro ao carregar agendamentos. Tente novamente."))
+            .finally(() => setLoading(false));
+    };
 
     useEffect(() => {
-        api.getBookings().then(data => {
-            setBookings(data);
-            setLoading(false);
-        }).catch(err => {
-            console.error("Erro ao carregar agendamentos:", err);
-            setLoading(false);
-        });
+        api.getBookings()
+            .then(data => setBookings(data))
+            .catch(() => setError("Erro ao carregar agendamentos. Tente novamente."))
+            .finally(() => setLoading(false));
     }, []);
 
     const [statusFilter, setStatusFilter] = useState("all");
@@ -171,11 +179,14 @@ const MyBookingsPage = () => {
     const counts = useMemo(() => {
         const base = {
             all: bookings.length,
-            confirmed: 0,
-            completed: 0,
-            cancelled: 0,
+            pendente: 0,
+            confirmado: 0,
+            "concluído": 0,
+            cancelado: 0,
         };
-        for (const b of bookings) base[b.status] += 1;
+        for (const b of bookings) {
+            if (base[b.status] !== undefined) base[b.status] += 1;
+        }
         return base;
     }, [bookings]);
 
@@ -187,17 +198,32 @@ const MyBookingsPage = () => {
         navigate("/agendar");
     };
 
-    const handleCancel = (booking) => {
+    const handleCancel = async (booking) => {
         const ok = window.confirm(
             `Deseja cancelar o agendamento ${booking.id}?\n\n` +
             `Serviço: ${booking.service?.name}\n` +
             `Data: ${booking.date} às ${booking.time}`
         );
 
-        if (ok) {
-            alert("Função de cancelamento via API será implementada em breve.");
+        if (!ok) return;
+
+        try {
+            await api.cancelBooking(booking.id);
+            loadData();
+        } catch {
+            setError("Não foi possível cancelar o agendamento. Tente novamente.");
         }
     };
+
+    if (loading) {
+        return (
+            <main className="section">
+                <div className="container">
+                    <p className="section-subtitle">Carregando agendamentos...</p>
+                </div>
+            </main>
+        );
+    }
 
     return (
         <main className="section">
@@ -214,6 +240,13 @@ const MyBookingsPage = () => {
                         Novo agendamento
                     </button>
                 </div>
+
+                {error && (
+                    <div className="card" style={{ borderRadius: 20, padding: 14, marginBottom: 16, color: "rgba(153,27,27,1)", background: "rgba(239,68,68,0.08)", border: "1px solid rgba(239,68,68,0.25)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                        <span>{error}</span>
+                        <button className="btn btn-outline" onClick={loadData}>Tentar novamente</button>
+                    </div>
+                )}
 
                 {/* Filtros */}
                 <div
@@ -237,22 +270,22 @@ const MyBookingsPage = () => {
                             Todos ({counts.all})
                         </button>
                         <button
-                            className={`chip ${statusFilter === "confirmed" ? "active" : ""}`}
-                            onClick={() => setStatusFilter("confirmed")}
+                            className={`chip ${statusFilter === "confirmado" ? "active" : ""}`}
+                            onClick={() => setStatusFilter("confirmado")}
                         >
-                            Confirmados ({counts.confirmed})
+                            Confirmados ({counts.confirmado})
                         </button>
                         <button
-                            className={`chip ${statusFilter === "completed" ? "active" : ""}`}
-                            onClick={() => setStatusFilter("completed")}
+                            className={`chip ${statusFilter === "concluído" ? "active" : ""}`}
+                            onClick={() => setStatusFilter("concluído")}
                         >
-                            Concluídos ({counts.completed})
+                            Concluídos ({counts["concluído"]})
                         </button>
                         <button
-                            className={`chip ${statusFilter === "cancelled" ? "active" : ""}`}
-                            onClick={() => setStatusFilter("cancelled")}
+                            className={`chip ${statusFilter === "cancelado" ? "active" : ""}`}
+                            onClick={() => setStatusFilter("cancelado")}
                         >
-                            Cancelados ({counts.cancelled})
+                            Cancelados ({counts.cancelado})
                         </button>
                     </div>
 

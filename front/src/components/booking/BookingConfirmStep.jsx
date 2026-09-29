@@ -1,14 +1,42 @@
 import React, { useState } from "react";
 import "../../styles/sections.css"; // reaproveita card, btn, etc.
-import { getServicePrice } from "../../data/services";
 
 const formatCurrency = (value) =>
     value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
-const BookingConfirmStep = ({ bookingData, onBack, onFinish }) => {
-    if (!bookingData) return null;
+const PaymentOption = ({ value, label, description, paymentMethod, onSelect }) => {
+    const isActive = paymentMethod === value;
+    return (
+        <button
+            type="button"
+            onClick={() => onSelect(value)}
+            className="chip"
+            style={{
+                padding: "8px 14px",
+                borderRadius: 12,
+                borderColor: isActive ? "transparent" : "rgba(148,163,184,0.6)",
+                backgroundColor: isActive ? "var(--primary)" : "#fff",
+                color: isActive ? "#fff" : "inherit",
+                textAlign: "left",
+                flex: "1 1 120px",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-start",
+                gap: 2,
+            }}
+        >
+            <span style={{ fontWeight: 600, fontSize: 13 }}>{label}</span>
+            {description && (
+                <span style={{ fontSize: 11, opacity: 0.9 }}>{description}</span>
+            )}
+        </button>
+    );
+};
 
+const BookingConfirmStep = ({ bookingData, onBack, onFinish }) => {
     const [paymentMethod, setPaymentMethod] = useState("pix");
+
+    if (!bookingData) return null;
 
     const {
         categoria,
@@ -17,10 +45,10 @@ const BookingConfirmStep = ({ bookingData, onBack, onFinish }) => {
         periodo,
         professionalName,
         horario,
+        price,
     } = bookingData;
 
-    const basePrice = getServicePrice(servico);
-    const servicePrice = basePrice;
+    const servicePrice = price ?? 0;
     const servicePriceLabel = formatCurrency(servicePrice);
 
     const handleConfirm = () => {
@@ -38,35 +66,6 @@ const BookingConfirmStep = ({ bookingData, onBack, onFinish }) => {
         if (onFinish) {
             onFinish(finalSelection);
         }
-    };
-
-    const PaymentOption = ({ value, label, description }) => {
-        const isActive = paymentMethod === value;
-        return (
-            <button
-                type="button"
-                onClick={() => setPaymentMethod(value)}
-                className="chip"
-                style={{
-                    padding: "8px 14px",
-                    borderRadius: 12,
-                    borderColor: isActive ? "transparent" : "rgba(148,163,184,0.6)",
-                    backgroundColor: isActive ? "var(--primary)" : "#fff",
-                    color: isActive ? "#fff" : "inherit",
-                    textAlign: "left",
-                    flex: "1 1 120px",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "flex-start",
-                    gap: 2,
-                }}
-            >
-                <span style={{ fontWeight: 600, fontSize: 13 }}>{label}</span>
-                {description && (
-                    <span style={{ fontSize: 11, opacity: 0.9 }}>{description}</span>
-                )}
-            </button>
-        );
     };
 
     return (
@@ -167,16 +166,22 @@ const BookingConfirmStep = ({ bookingData, onBack, onFinish }) => {
                                 value="pix"
                                 label="Pix"
                                 description="Confirmação rápida, chave enviada após agendamento."
+                                paymentMethod={paymentMethod}
+                                onSelect={setPaymentMethod}
                             />
                             <PaymentOption
                                 value="card"
                                 label="Cartão de crédito"
                                 description="Pague online e garanta seu horário."
+                                paymentMethod={paymentMethod}
+                                onSelect={setPaymentMethod}
                             />
                             <PaymentOption
                                 value="local"
                                 label="Pagar no local"
                                 description="Combine o pagamento diretamente com o espaço."
+                                paymentMethod={paymentMethod}
+                                onSelect={setPaymentMethod}
                             />
                         </div>
 

@@ -597,10 +597,10 @@ T23
 
 **Done when**:
 
-- [ ] O arquivo invoca `npm run lint` em `zenspa/front`
-- [ ] `git -C zenspa config core.hooksPath` é `.husky`
-- [ ] Um commit de probe em `zenspa` executa esse arquivo antes do objeto de commit existir (o probe não entra no histórico: criar e, se o lint passar, deixar o commit da própria task; se o lint falhar, o gate desta task falha)
-- [ ] Gate build: o arquivo contém `npm run lint` e `core.hooksPath` é `.husky`
+- [x] O arquivo invoca `npm run lint` em `zenspa/front`
+- [x] `git -C zenspa config core.hooksPath` é `.husky`
+- [x] Um commit de probe em `zenspa` executa esse arquivo antes do objeto de commit existir (o probe não entra no histórico: criar e, se o lint passar, deixar o commit da própria task; se o lint falhar, o gate desta task falha)
+- [x] Gate build: o arquivo contém `npm run lint` e `core.hooksPath` é `.husky`
 
 **Tests**: none
 **Gate**: build

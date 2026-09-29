@@ -1,0 +1,3 @@
+#!/bin/sh
+cd front || exit 1
+npm run lint
