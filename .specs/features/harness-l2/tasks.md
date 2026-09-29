@@ -539,11 +539,11 @@ T23
 
 **Done when**:
 
-- [ ] `scripts.format` invoca Prettier
-- [ ] `prettier` está em `devDependencies` e o lockfile do front foi atualizado no mesmo commit
-- [ ] `scripts.typecheck` criado em T14 continua presente
-- [ ] `prettier --write` não é executado na árvore inteira
-- [ ] Gate build: `npm run format -- --version` em `zenspa/front` sai 0
+- [x] `scripts.format` invoca Prettier
+- [x] `prettier` está em `devDependencies` e o lockfile do front foi atualizado no mesmo commit
+- [x] `scripts.typecheck` criado em T14 continua presente
+- [x] `prettier --write` não é executado na árvore inteira
+- [x] Gate build: `npm run format -- --version` em `zenspa/front` sai 0
 
 **Tests**: none
 **Gate**: build
