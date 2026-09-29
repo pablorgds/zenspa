@@ -685,13 +685,13 @@ T23
 
 **Done when**:
 
-- [ ] O JSON tem `version` numérico
-- [ ] `beforeShellExecution` e `afterFileEdit` têm `command` não vazio
-- [ ] O command do gate é `node zenspa/.cursor/hooks/gate-shell.mjs` com `failClosed: true`
-- [ ] O command do feedback é `node zenspa/.cursor/hooks/format-on-edit.mjs`
-- [ ] Os dois caminhos relativos existem a partir de `agenda`
-- [ ] O command não é só `.cursor/hooks/...` (isso reprova HKS-05 na raiz do scan)
-- [ ] Gate build: o JSON parseia, `version` é número, e os dois arquivos de script existem
+- [x] O JSON tem `version` numérico
+- [x] `beforeShellExecution` e `afterFileEdit` têm `command` não vazio
+- [x] O command do gate é `node zenspa/.cursor/hooks/gate-shell.mjs` com `failClosed: true`
+- [x] O command do feedback é `node zenspa/.cursor/hooks/format-on-edit.mjs`
+- [x] Os dois caminhos relativos existem a partir de `agenda`
+- [x] O command não é só `.cursor/hooks/...` (isso reprova HKS-05 na raiz do scan)
+- [x] Gate build: o JSON parseia, `version` é número, e os dois arquivos de script existem
 
 **Tests**: none
 **Gate**: build
