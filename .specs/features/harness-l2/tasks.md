@@ -294,10 +294,10 @@ T23
 
 **Done when**:
 
-- [ ] Existem pelo menos dois `.mdc` em `zenspa/.cursor/rules/`, cada um com `description` e ou `globs` ou `alwaysApply`
-- [ ] Este arquivo define `globs: back/**/*.php` e não define `alwaysApply: true`
-- [ ] O arquivo tem 500 linhas ou menos
-- [ ] Gate build: o frontmatter tem esse glob e não tem `alwaysApply: true`
+- [x] Existem pelo menos dois `.mdc` em `zenspa/.cursor/rules/`, cada um com `description` e ou `globs` ou `alwaysApply`
+- [x] Este arquivo define `globs: back/**/*.php` e não define `alwaysApply: true`
+- [x] O arquivo tem 500 linhas ou menos
+- [x] Gate build: o frontmatter tem esse glob e não tem `alwaysApply: true`
 
 **Tests**: none
 **Gate**: build

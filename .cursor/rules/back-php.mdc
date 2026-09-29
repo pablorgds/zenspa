@@ -1,0 +1,6 @@
+---
+description: Regra do back Laravel quando o arquivo aberto é PHP.
+globs: back/**/*.php
+---
+
+Neste diretório, siga os controllers, models e testes PHP que já existem.
