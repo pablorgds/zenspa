@@ -1,15 +1,11 @@
 #!/usr/bin/env node
-import { readFileSync } from "node:fs";
+import { writeSync } from "node:fs";
+import { stdin } from "node:process";
 
 const BUILD_SEGMENTS = new Set(["dist", "build", "node_modules"]);
 
-function readInput() {
-  const raw = readFileSync(0, "utf8");
-  return JSON.parse(raw);
-}
-
 function respond(permission) {
-  process.stdout.write(JSON.stringify({ permission }));
+  writeSync(1, Buffer.from(`${JSON.stringify({ permission })}\n`));
   process.exit(0);
 }
 
@@ -66,18 +62,62 @@ function extractRecursiveTargets(command) {
   return [];
 }
 
-const input = readInput();
-const command = String(input.command ?? "");
-
-if (command.includes("git push --force") || command.includes("git reset --hard")) {
-  respond("deny");
-}
-
-if (isRecursiveDelete(command)) {
-  const targets = extractRecursiveTargets(command);
-  if (targets.length === 0 || targets.some((t) => !isBuildDirectory(t))) {
-    respond("deny");
+function decide(command) {
+  if (command.includes("git push --force") || command.includes("git reset --hard")) {
+    return "deny";
   }
+  if (isRecursiveDelete(command)) {
+    const targets = extractRecursiveTargets(command);
+    if (targets.length === 0 || targets.some((t) => !isBuildDirectory(t))) {
+      return "deny";
+    }
+  }
+  return "allow";
 }
 
-respond("allow");
+function readStdin() {
+  return new Promise((resolve) => {
+    const chunks = [];
+    let settled = false;
+    const finish = () => {
+      if (settled) return;
+      settled = true;
+      clearTimeout(timer);
+      resolve(Buffer.concat(chunks).toString("utf8"));
+    };
+    const tryParse = () => {
+      const raw = Buffer.concat(chunks).toString("utf8").trim();
+      if (!raw) return;
+      try {
+        JSON.parse(raw);
+        finish();
+      } catch {
+        // Wait for the rest of the object.
+      }
+    };
+    const timer = setTimeout(finish, 2000);
+    stdin.on("data", (chunk) => {
+      chunks.push(chunk);
+      tryParse();
+    });
+    stdin.on("end", finish);
+    stdin.on("error", finish);
+    if (stdin.readableEnded) finish();
+  });
+}
+
+function commandFrom(raw) {
+  const text = raw.replace(/^\uFEFF/, "").trim();
+  if (!text) return "";
+  try {
+    const input = JSON.parse(text);
+    if (input && typeof input.command === "string") return input.command;
+  } catch {
+    // Cursor may send a payload JSON.parse rejects. Keep the command field.
+  }
+  const match = text.match(/"command"\s*:\s*"((?:\\.|[^"\\])*)"/);
+  if (!match) return "";
+  return match[1].replace(/\\"/g, "\"").replace(/\\n/g, "\n").replace(/\\\\/g, "\\");
+}
+
+respond(decide(commandFrom(await readStdin())));
