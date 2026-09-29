@@ -214,8 +214,8 @@ T23
 
 **Done when**:
 
-- [ ] O texto é idêntico ao de `agenda/LICENSE`
-- [ ] Gate build: o arquivo existe e contém `MIT License`
+- [x] O texto é idêntico ao de `agenda/LICENSE`
+- [x] Gate build: o arquivo existe e contém `MIT License`
 
 **Tests**: none
 **Gate**: build
