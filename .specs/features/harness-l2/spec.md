@@ -251,8 +251,8 @@ A nota está em L1 (contexto 8/20 = 40%). Os 28 checks reprovados somam 84 ponto
 | HS-38 | P2: Hooks | Specify | Pending |
 | HS-39 | P2: Hooks | Specify | Pending |
 | HS-40 | P2: Subagente | Specify | Pending |
-| HS-41 | P2: Subagente | Specify | Pending |
-| HS-42 | P2: Subagente | Specify | Pending |
+| HS-41 | P2: Subagente | Specify | Implementing |
+| HS-42 | P2: Subagente | Specify | Implementing |
 
 **Coverage:** 42 total, 0 mapped to tasks, 42 unmapped
 

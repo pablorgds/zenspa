@@ -403,9 +403,9 @@ T23
 
 **Done when**:
 
-- [ ] O frontmatter tem `name` e `description`
-- [ ] `description` tem 40 caracteres ou mais, diz quando delegar uma revisão, e diz que a delegação é de teste e lint, não de implementação de feature
-- [ ] Gate build: `name` e `description` existem e o texto cobre teste, lint e o limite de não implementar feature
+- [x] O frontmatter tem `name` e `description`
+- [x] `description` tem 40 caracteres ou mais, diz quando delegar uma revisão, e diz que a delegação é de teste e lint, não de implementação de feature
+- [x] Gate build: `name` e `description` existem e o texto cobre teste, lint e o limite de não implementar feature
 
 **Tests**: none
 **Gate**: build
