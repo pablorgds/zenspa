@@ -239,9 +239,9 @@ T23
 
 **Done when**:
 
-- [ ] O arquivo é JSON válido e o valor de `mcpServers` é um objeto vazio
-- [ ] Não há token, chave ou senha literal
-- [ ] Gate build: `JSON.parse` aceita o arquivo e `mcpServers` é um objeto
+- [x] O arquivo é JSON válido e o valor de `mcpServers` é um objeto vazio
+- [x] Não há token, chave ou senha literal
+- [x] Gate build: `JSON.parse` aceita o arquivo e `mcpServers` é um objeto
 
 **Tests**: none
 **Gate**: build

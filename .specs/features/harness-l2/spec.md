@@ -228,8 +228,8 @@ A nota está em L1 (contexto 8/20 = 40%). Os 28 checks reprovados somam 84 ponto
 | HS-15 | P1: Higiene | Specify | Implementing |
 | HS-16 | P1: Higiene | Specify | Implementing |
 | HS-17 | P1: Higiene | Specify | Implementing |
-| HS-18 | P1: Higiene | Specify | Pending |
-| HS-19 | P1: Higiene | Specify | Pending |
+| HS-18 | P1: Higiene | Specify | Implementing |
+| HS-19 | P1: Higiene | Specify | Implementing |
 | HS-20 | P2: Sensores | Specify | Pending |
 | HS-21 | P2: Sensores | Specify | Pending |
 | HS-22 | P2: Sensores | Specify | Pending |
