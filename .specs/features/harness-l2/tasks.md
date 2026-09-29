@@ -431,10 +431,10 @@ T23
 
 **Done when**:
 
-- [ ] `scripts.test` é exatamente `composer test --working-dir=zenspa/back`
-- [ ] `agenda/package-lock.json` existe no mesmo commit
-- [ ] `composer test --working-dir=zenspa/back` sai 0, e nenhum teste PHPUnit é apagado ou enfraquecido
-- [ ] Gate full: esse `composer test` sai 0
+- [x] `scripts.test` é exatamente `composer test --working-dir=zenspa/back`
+- [x] `agenda/package-lock.json` existe no mesmo commit
+- [x] `composer test --working-dir=zenspa/back` sai 0, e nenhum teste PHPUnit é apagado ou enfraquecido
+- [x] Gate full: esse `composer test` sai 0
 
 **Tests**: none
 **Gate**: full
