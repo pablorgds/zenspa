@@ -9,7 +9,7 @@ Implement these tasks with the `tlc-spec-driven` skill: **activate it by name an
 ---
 
 **Design**: skipped. The spec was approved and design.md was not created.
-**Status**: In Progress
+**Status**: Done
 
 ---
 
@@ -745,12 +745,12 @@ T23
 
 **Done when**:
 
-- [ ] `npx harness-score` em `agenda` reporta nível L2 ou superior
-- [ ] Passam: CTX-03, CTX-04, CTX-05, CTX-06, CTX-07, SKL-01, SKL-02, SKL-03, SKL-04, AGT-01, AGT-02, HKS-01, HKS-02, HKS-03, HKS-04, HKS-05, SNS-01, SNS-03, SNS-04, CI-01, CI-02, CI-03, CI-04, HYG-01, HYG-02, HYG-03, HYG-05, HYG-08
-- [ ] Continuam passando: CTX-01, CTX-02, CTX-08, SNS-02, SNS-05, HYG-04, HYG-06, HYG-07
-- [ ] A tabela de rastreabilidade da spec marca os 42 requisitos como cobertos por estas tasks
-- [ ] Gate full de regressão: `composer test --working-dir=zenspa/back` sai 0 e `npm run lint` em `zenspa/front` sai 0
-- [ ] Gate build: o relatório do `npx harness-score` mostra L2 ou superior
+- [x] `npx harness-score` em `agenda` reporta nível L2 ou superior
+- [x] Passam: CTX-03, CTX-04, CTX-05, CTX-06, CTX-07, SKL-01, SKL-02, SKL-03, SKL-04, AGT-01, AGT-02, HKS-01, HKS-02, HKS-03, HKS-04, HKS-05, SNS-01, SNS-03, SNS-04, CI-01, CI-02, CI-03, CI-04, HYG-01, HYG-02, HYG-03, HYG-05, HYG-08
+- [x] Continuam passando: CTX-01, CTX-02, CTX-08, SNS-02, SNS-05, HYG-04, HYG-06, HYG-07
+- [x] A tabela de rastreabilidade da spec marca os 42 requisitos como cobertos por estas tasks
+- [x] Gate full de regressão: `composer test --working-dir=zenspa/back` sai 0 e `npm run lint` em `zenspa/front` sai 0
+- [x] Gate build: o relatório do `npx harness-score` mostra L2 ou superior
 
 **Tests**: none
 **Gate**: build
