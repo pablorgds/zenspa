@@ -348,9 +348,9 @@ T23
 
 **Done when**:
 
-- [ ] O arquivo nomeia `zenspa/back` e `zenspa/front`
-- [ ] O arquivo contém os comandos `composer test` e `npm run lint`
-- [ ] Gate build: as quatro strings estão no arquivo
+- [x] O arquivo nomeia `zenspa/back` e `zenspa/front`
+- [x] O arquivo contém os comandos `composer test` e `npm run lint`
+- [x] Gate build: as quatro strings estão no arquivo
 
 **Tests**: none
 **Gate**: build
