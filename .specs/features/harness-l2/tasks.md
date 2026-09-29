@@ -715,11 +715,11 @@ T23
 
 **Done when**:
 
-- [ ] O JSON tem `version` numérico e os mesmos dois eventos
-- [ ] O command do gate é `node .cursor/hooks/gate-shell.mjs` com `failClosed: true`
-- [ ] O command do feedback é `node .cursor/hooks/format-on-edit.mjs`
-- [ ] Os dois caminhos existem a partir de `zenspa`
-- [ ] Gate build: o JSON parseia e os dois scripts existem
+- [x] O JSON tem `version` numérico e os mesmos dois eventos
+- [x] O command do gate é `node .cursor/hooks/gate-shell.mjs` com `failClosed: true`
+- [x] O command do feedback é `node .cursor/hooks/format-on-edit.mjs`
+- [x] Os dois caminhos existem a partir de `zenspa`
+- [x] Gate build: o JSON parseia e os dois scripts existem
 
 **Tests**: none
 **Gate**: build
