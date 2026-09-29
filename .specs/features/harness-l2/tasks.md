@@ -458,9 +458,9 @@ T23
 
 **Done when**:
 
-- [ ] `compilerOptions.strict` é `true`, `allowJs` é `false` e `noEmit` é `true`
-- [ ] `files` é um array vazio, para `tsc` não incluir o JSX atual
-- [ ] Gate build: o JSON contém `"strict": true`
+- [x] `compilerOptions.strict` é `true`, `allowJs` é `false` e `noEmit` é `true`
+- [x] `files` é um array vazio, para `tsc` não incluir o JSX atual
+- [x] Gate build: o JSON contém `"strict": true`
 
 **Tests**: none
 **Gate**: build
