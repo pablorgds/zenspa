@@ -485,11 +485,11 @@ T23
 
 **Done when**:
 
-- [ ] `scripts.typecheck` é `tsc --noEmit`
-- [ ] `typescript` está em `devDependencies` e `zenspa/front/package-lock.json` foi atualizado no mesmo commit
-- [ ] `npm run typecheck` em `zenspa/front` sai 0
-- [ ] A árvore JSX não é reformatada nem migrada
-- [ ] Gate build: `npm run typecheck` sai 0
+- [x] `scripts.typecheck` é `tsc --noEmit`
+- [x] `typescript` está em `devDependencies` e `zenspa/front/package-lock.json` foi atualizado no mesmo commit
+- [x] `npm run typecheck` em `zenspa/front` sai 0
+- [x] A árvore JSX não é reformatada nem migrada
+- [x] Gate build: `npm run typecheck` sai 0
 
 **Tests**: none
 **Gate**: build
@@ -513,9 +513,9 @@ T23
 
 **Done when**:
 
-- [ ] O arquivo é JSON válido (objeto vazio é suficiente)
-- [ ] O comando de formatar a árvore inteira não é executado
-- [ ] Gate build: o arquivo existe e `JSON.parse` aceita
+- [x] O arquivo é JSON válido (objeto vazio é suficiente)
+- [x] O comando de formatar a árvore inteira não é executado
+- [x] Gate build: o arquivo existe e `JSON.parse` aceita
 
 **Tests**: none
 **Gate**: build
