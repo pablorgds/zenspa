@@ -459,8 +459,9 @@ T23
 **Done when**:
 
 - [x] `compilerOptions.strict` é `true`, `allowJs` é `false` e `noEmit` é `true`
-- [x] `files` é um array vazio, para `tsc` não incluir o JSX atual
+- [x] `include: []` e `references: []` (não `files: []`) para `tsc` não incluir o JSX atual
 - [x] Gate build: o JSON contém `"strict": true`
+- SPEC_DEVIATION: files: [] causes TS18002 on TypeScript 5.9. include: [] and references: [] keep strict/allowJs/noEmit and make tsc --noEmit exit 0 without typechecking JSX.
 
 **Tests**: none
 **Gate**: build

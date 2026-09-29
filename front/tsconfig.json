@@ -4,5 +4,6 @@
     "allowJs": false,
     "noEmit": true
   },
-  "files": []
+  "include": [],
+  "references": []
 }
