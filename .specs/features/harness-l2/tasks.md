@@ -626,14 +626,14 @@ T23
 
 **Done when**:
 
-- [ ] O script lê `command` do JSON no stdin, escreve `{"permission":"deny"}` ou `{"permission":"allow"}` e sai 0
-- [ ] Nega quando o comando contém `git push --force` ou `git reset --hard`
-- [ ] Nega remoção recursiva (`rm -rf`, `rm -fr`, ou `Remove-Item` com `-Recurse`) quando algum alvo não é um diretório de build
-- [ ] Diretório de build é um segmento final `dist`, `build` ou `node_modules`
-- [ ] Permite `composer test`, `npm run lint`, remoção recursiva só de diretório de build, e qualquer outro comando
-- [ ] `git push --force-with-lease` cai na negação porque contém `git push --force`
-- [ ] `zenspa/.cursor/hooks/gate-shell.test.mjs` cobre estes 8 casos: deny `git push --force`, deny `git reset --hard`, deny `rm -rf src`, deny `Remove-Item -Recurse src`, allow `composer test`, allow `npm run lint`, allow `rm -rf dist`, allow `git status`
-- [ ] Gate quick: `node --test .cursor/hooks/gate-shell.test.mjs` de `zenspa` mostra 8 testes passando
+- [x] O script lê `command` do JSON no stdin, escreve `{"permission":"deny"}` ou `{"permission":"allow"}` e sai 0
+- [x] Nega quando o comando contém `git push --force` ou `git reset --hard`
+- [x] Nega remoção recursiva (`rm -rf`, `rm -fr`, ou `Remove-Item` com `-Recurse`) quando algum alvo não é um diretório de build
+- [x] Diretório de build é um segmento final `dist`, `build` ou `node_modules`
+- [x] Permite `composer test`, `npm run lint`, remoção recursiva só de diretório de build, e qualquer outro comando
+- [x] `git push --force-with-lease` cai na negação porque contém `git push --force`
+- [x] `zenspa/.cursor/hooks/gate-shell.test.mjs` cobre estes 8 casos: deny `git push --force`, deny `git reset --hard`, deny `rm -rf src`, deny `Remove-Item -Recurse src`, allow `composer test`, allow `npm run lint`, allow `rm -rf dist`, allow `git status`
+- [x] Gate quick: `node --test .cursor/hooks/gate-shell.test.mjs` de `zenspa` mostra 8 testes passando
 
 **Tests**: unit
 **Gate**: quick
