@@ -9,9 +9,9 @@
 ## Handoff
 
 **Feature**: mvp-2-day-agenda
-**Where**: C1–C55 no código. API em `8bd4243`. Provas verdes. Falta o Verifier.
+**Where**: C1–C55 fechados. Verifier PASS em `verification.md`. `validate_verification.py` exit 0.
 **In progress**: none
-**Next step**: Verifier independente sobre `6498bc6..HEAD`
+**Next step**: MVP-3 no roadmap
 **Blockers**: none
 **Uncommitted**: none
 **Branch**: master

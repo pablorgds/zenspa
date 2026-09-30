@@ -56,7 +56,7 @@ A agenda mente enquanto um horário cancelado, sobreposto ou passado puder ser m
 
 **Testes:** slot cancelado volta a aparecer; serviço mais longo que o slot recusa o horário sobreposto; admin não reagenda para horário ocupado; duas criações concorrentes no mesmo horário deixam um 201 e um 422.
 
-### MVP-2 — Agenda do dia e marcação pela recepção
+### MVP-2 — Agenda do dia e marcação pela recepção ✅ Concluído em 2026-09-30
 
 A aba atual é uma tabela filtrável. A operação do dia é outra tela.
 
