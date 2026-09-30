@@ -1,15 +1,13 @@
 <?php
 
-use App\Http\Controllers\Api\ServiceController;
-use App\Http\Controllers\Api\ProfessionalController;
-use App\Http\Controllers\Api\BookingController;
-use App\Http\Controllers\Api\AdminBookingController;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
-
-use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\AdminAvailabilityController;
+use App\Http\Controllers\Api\AdminBookingController;
 use App\Http\Controllers\Api\AdminFinancialController;
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\BookingController;
+use App\Http\Controllers\Api\ProfessionalController;
+use App\Http\Controllers\Api\ServiceController;
+use Illuminate\Support\Facades\Route;
 
 Route::middleware('throttle:10,1')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
@@ -28,7 +26,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::middleware('admin')->prefix('admin')->group(function () {
         Route::apiResource('services', ServiceController::class)->except(['index']);
         Route::apiResource('professionals', ProfessionalController::class)->except(['index']);
+        Route::get('/agenda', [AdminBookingController::class, 'agenda']);
         Route::get('/bookings', [AdminBookingController::class, 'index']);
+        Route::post('/bookings', [AdminBookingController::class, 'store']);
         Route::put('/bookings/{booking}', [AdminBookingController::class, 'update']);
         Route::delete('/bookings/{booking}', [AdminBookingController::class, 'destroy']);
         Route::post('/bookings/{booking}/cancel', [AdminBookingController::class, 'cancel']);

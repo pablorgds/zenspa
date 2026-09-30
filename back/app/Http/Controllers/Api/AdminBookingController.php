@@ -4,13 +4,162 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
+use App\Models\Professional;
+use App\Models\Service;
+use App\Models\Transaction;
+use App\Models\User;
 use App\Services\SlotOccupancy;
 use Carbon\Carbon;
+use DateTimeImmutable;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
 class AdminBookingController extends Controller
 {
+    public function agenda(Request $request)
+    {
+        $date = $request->query('date');
+        if (! is_string($date) || ! $this->isCalendarDate($date)) {
+            return response()->json(['message' => 'Data inválida.'], 422);
+        }
+
+        if ($request->filled('professional_id')) {
+            $professionals = collect([
+                Professional::query()->findOrFail($request->query('professional_id')),
+            ]);
+        } else {
+            $professionals = Professional::query()->orderBy('name')->get();
+        }
+
+        $rows = $professionals->sortBy('name')->values()->map(function (Professional $professional) use ($date) {
+            $bookings = Booking::query()
+                ->with(['user', 'service'])
+                ->where('professional_id', $professional->id)
+                ->whereDate('date', $date)
+                ->whereIn('status', SlotOccupancy::OCCUPYING)
+                ->orderBy('time')
+                ->get()
+                ->map(fn (Booking $booking) => [
+                    'id' => $booking->id,
+                    'time' => Carbon::parse($booking->time)->format('H:i'),
+                    'status' => $booking->status,
+                    'user' => $booking->user,
+                    'service' => $booking->service,
+                ])
+                ->values();
+
+            return [
+                'id' => $professional->id,
+                'name' => $professional->name,
+                'bookings' => $bookings,
+                'free_slots' => SlotOccupancy::freeSlots($professional->id, $date),
+            ];
+        })->values();
+
+        return response()->json([
+            'date' => $date,
+            'professionals' => $rows,
+        ]);
+    }
+
+    public function store(Request $request)
+    {
+        $hasId = $request->filled('user_id');
+        $hasEmail = $request->filled('email');
+
+        if (! $hasId && ! $hasEmail) {
+            return response()->json(['message' => 'Informe o usuário.'], 422);
+        }
+
+        if ($hasId && $hasEmail) {
+            return response()->json(['message' => 'Informe só o id ou o e-mail.'], 422);
+        }
+
+        $user = $hasId
+            ? User::query()->find($request->input('user_id'))
+            : User::query()->where('email', $request->input('email'))->first();
+
+        if ($user === null) {
+            return response()->json(['message' => 'Usuário não encontrado.'], 422);
+        }
+
+        $status = $request->input('status');
+        if (! in_array($status, [Booking::STATUS_PENDING, Booking::STATUS_CONFIRMED], true)) {
+            return response()->json(['message' => 'Status inicial inválido.'], 422);
+        }
+
+        $payment = $request->input('payment_method');
+        if (! in_array($payment, ['pix', 'cartao_credito', 'cartao_debito', 'dinheiro'], true)) {
+            return response()->json(['message' => 'Forma de pagamento inválida.'], 422);
+        }
+
+        $validated = $request->validate([
+            'service_id' => 'required|exists:services,id',
+            'professional_id' => 'required|exists:professionals,id',
+            'date' => 'required|date_format:Y-m-d',
+            'time' => 'required|date_format:H:i',
+        ]);
+
+        $service = Service::query()->findOrFail($validated['service_id']);
+        $professionalId = (int) $validated['professional_id'];
+        $date = $validated['date'];
+        $time = $validated['time'];
+        $duration = (int) $service->duration_minutes;
+        $message = null;
+
+        $booking = SlotOccupancy::run($professionalId, function () use (&$message, $user, $service, $professionalId, $date, $time, $duration, $status, $payment) {
+            if (Carbon::parse($date)->startOfDay()->lt(Carbon::now()->startOfDay())) {
+                $message = 'Não é possível agendar em data passada.';
+
+                return null;
+            }
+
+            if (SlotOccupancy::isPast($date, $time)) {
+                $message = 'Horário já passou.';
+
+                return null;
+            }
+
+            if (! SlotOccupancy::fitsWindow($professionalId, $date, $time, $duration)) {
+                $message = 'Horário fora da disponibilidade do profissional.';
+
+                return null;
+            }
+
+            if (SlotOccupancy::overlaps($professionalId, $date, $time, $duration)) {
+                $message = 'Horário já reservado.';
+
+                return null;
+            }
+
+            $booking = Booking::create([
+                'user_id' => $user->id,
+                'service_id' => $service->id,
+                'professional_id' => $professionalId,
+                'date' => $date,
+                'time' => $time,
+                'status' => $status,
+                'payment_method' => $payment,
+                'price' => $service->price,
+            ]);
+
+            Transaction::create([
+                'booking_id' => $booking->id,
+                'amount' => $booking->price,
+                'type' => 'entrada',
+                'description' => "Agendamento #{$booking->id}",
+            ]);
+
+            return $booking->load(['service', 'professional', 'user']);
+        });
+
+        if ($message !== null) {
+            return response()->json(['message' => $message], 422);
+        }
+
+        return response()->json($booking, 201);
+    }
+
     public function index(Request $request)
     {
         $query = Booking::with(['service', 'professional', 'user']);
@@ -111,5 +260,17 @@ class AdminBookingController extends Controller
         $booking->update(['status' => Booking::STATUS_CANCELLED]);
 
         return response()->json($booking);
+    }
+
+    private function isCalendarDate(string $date): bool
+    {
+        $parsed = DateTimeImmutable::createFromFormat('!Y-m-d', $date);
+        $errors = DateTimeImmutable::getLastErrors();
+
+        if ($parsed === false || $parsed->format('Y-m-d') !== $date) {
+            return false;
+        }
+
+        return ! is_array($errors) || ($errors['warning_count'] === 0 && $errors['error_count'] === 0);
     }
 }

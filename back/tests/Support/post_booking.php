@@ -53,7 +53,8 @@ DB::listen(function ($query) use ($raceDir, $slot, &$seen) {
 
 try {
     $payload = json_decode($payloadJson, true);
-    $request = Request::create('/api/bookings', 'POST', $payload);
+    $path = $argv[7] ?? '/api/bookings';
+    $request = Request::create($path, 'POST', $payload);
     $request->headers->set('Accept', 'application/json');
     $request->headers->set('Authorization', 'Bearer '.$token);
 

@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Professional;
 use App\Services\SlotOccupancy;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ProfessionalController extends Controller
@@ -61,33 +60,8 @@ class ProfessionalController extends Controller
             return response()->json(['message' => 'Date is required'], 400);
         }
 
-        $carbonDate = Carbon::parse($date);
-        $dayOfWeek = $carbonDate->dayOfWeek; // 0 (Sunday) to 6 (Saturday)
+        Professional::findOrFail($id);
 
-        $professional = Professional::with(['availabilities' => function ($query) use ($dayOfWeek) {
-            $query->whereIn('day_of_week', [(string) $dayOfWeek, $dayOfWeek]);
-        }])->findOrFail($id);
-
-        $occupying = SlotOccupancy::occupying($professional->id, $date);
-        $now = Carbon::now();
-        $isToday = $carbonDate->isSameDay($now);
-
-        $slots = [];
-        foreach ($professional->availabilities as $availability) {
-            $start = Carbon::createFromFormat('H:i:s', $availability->start_time);
-            $end = Carbon::createFromFormat('H:i:s', $availability->end_time);
-
-            while ($start->copy()->addMinutes($availability->slot_duration)->lte($end)) {
-                $slotTime = $start->format('H:i');
-                $slotAt = Carbon::parse($date.' '.$slotTime);
-                $hiddenByClock = $isToday && $slotAt->lt($now);
-                if (! $hiddenByClock && ! SlotOccupancy::pointOccupied($slotTime, $occupying)) {
-                    $slots[] = $slotTime;
-                }
-                $start->addMinutes($availability->slot_duration);
-            }
-        }
-
-        return response()->json($slots);
+        return response()->json(SlotOccupancy::freeSlots((int) $id, $date));
     }
 }

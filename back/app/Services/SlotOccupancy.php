@@ -103,6 +103,37 @@ class SlotOccupancy
         return false;
     }
 
+    public static function freeSlots(int $professionalId, string $date): array
+    {
+        $carbonDate = Carbon::parse($date);
+        $dayOfWeek = $carbonDate->dayOfWeek;
+        $availabilities = Availability::query()
+            ->where('professional_id', $professionalId)
+            ->whereIn('day_of_week', [(string) $dayOfWeek, $dayOfWeek])
+            ->get();
+        $occupying = self::occupying($professionalId, $date);
+        $now = Carbon::now();
+        $isToday = $carbonDate->isSameDay($now);
+        $slots = [];
+
+        foreach ($availabilities as $availability) {
+            $start = Carbon::createFromFormat('H:i:s', $availability->start_time);
+            $end = Carbon::createFromFormat('H:i:s', $availability->end_time);
+
+            while ($start->copy()->addMinutes($availability->slot_duration)->lte($end)) {
+                $slotTime = $start->format('H:i');
+                $slotAt = Carbon::parse($date.' '.$slotTime);
+                $hiddenByClock = $isToday && $slotAt->lt($now);
+                if (! $hiddenByClock && ! self::pointOccupied($slotTime, $occupying)) {
+                    $slots[] = $slotTime;
+                }
+                $start->addMinutes($availability->slot_duration);
+            }
+        }
+
+        return $slots;
+    }
+
     public static function occupying(int $professionalId, string $date, ?int $exceptId = null): Collection
     {
         return Booking::query()
