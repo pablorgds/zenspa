@@ -91,3 +91,14 @@ Slot lists are computed in `ProfessionalController::availableSlots()` from avail
 - Schema changes go through migrations in `back/database/migrations`. Do not edit old migrations that have already shipped.
 - Keep changes scoped to the request. Do not refactor unrelated code, add unused abstractions, or invent endpoints the UI does not call.
 - New booking behavior needs a feature test under `back/tests/Feature/` that hits the HTTP layer, then a frontend change that uses `api.js` and the shared status constants.
+
+## Agent layout
+
+Cursor reads this file, `.cursor/rules/`, and `.cursor/skills/`. Feature specs live under `.specs/`.
+
+- `.specs/implementation-roadmap.md` is the implementation order. Mark an item `✅ Concluído em YYYY-MM-DD` there when it is done. Follow MVP-1 through MVP-5 before e-mail or payments. `confirmado` stays a reception action until a payment provider exists.
+- `.cursor/skills/test-generator` — Laravel feature tests for a new endpoint.
+- `.cursor/skills/feature-implementer` — API, feature test, then React screen for a new module.
+- `.cursor/skills/roadmap-executor` — the next roadmap item, in order.
+- `.cursor/skills/coding-guidelines` and `.cursor/skills/tlc-spec-driven` stay as they are.
+- `.cursor/commands/verify.md` runs `composer test` in `back/` and `npm run lint` in `front/`.

@@ -23,7 +23,7 @@ A nota está em L1 (contexto 8/20 = 40%). Os 28 checks reprovados somam 84 ponto
 | Reformatar a árvore inteira com Prettier | A nota exige o config, não um diff de formatação. |
 | Publicar badge, GitHub Pages, ou `--scope user` | O relatório pede maturidade do diretório escaneado. |
 | Desligar checks via `.harness-score.json` | A nota sobe porque o harness existe, não porque o check foi excluído. |
-| Mover skills de `.junie/skills/` | Esse diretório não entra em SKL-01. |
+| Mover as skills que estavam em `.junie/` | Fora do harness-l2. A pasta `.junie` foi removida; as skills estão em `.cursor/skills/` e o roadmap em `.specs/implementation-roadmap.md`. |
 | Apagar `.env`, `.env.docker` ou `front/.env` | São estado local. A proteção é o gitignore. |
 
 ---
