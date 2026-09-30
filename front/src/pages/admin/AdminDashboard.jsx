@@ -35,6 +35,7 @@ const AdminDashboard = () => {
     const [bookingFormData, setBookingFormData] = useState({
         professional_id: "", date: "", time: "", status: ""
     });
+    const [bookingError, setBookingError] = useState("");
 
     // Financial
     const [financialPeriod, setFinancialPeriod] = useState("daily");
@@ -120,14 +121,20 @@ const AdminDashboard = () => {
             time: booking.time,
             status: booking.status
         });
+        setBookingError("");
         setIsBookingModalOpen(true);
     };
 
     const handleBookingSubmit = async (e) => {
         e.preventDefault();
-        await api.adminUpdateBooking(editingBooking.id, bookingFormData);
-        setIsBookingModalOpen(false);
-        loadBookings();
+        setBookingError("");
+        try {
+            await api.adminUpdateBooking(editingBooking.id, bookingFormData);
+            setIsBookingModalOpen(false);
+            loadBookings();
+        } catch (error) {
+            setBookingError(error.message || "Não foi possível salvar o agendamento.");
+        }
     };
 
     const handleCancelBooking = async (id) => {
@@ -780,6 +787,9 @@ const AdminDashboard = () => {
                     <div className="modal-overlay">
                         <div className="card modal-content" style={{ width: 400, padding: 32 }}>
                             <h3>Gerenciar Agendamento</h3>
+                            {bookingError && (
+                                <p role="alert" style={{ color: "red", fontSize: 13, marginTop: 8 }}>{bookingError}</p>
+                            )}
                             <form onSubmit={handleBookingSubmit} style={{ marginTop: 20 }}>
                                 <div style={{ marginBottom: 12 }}>
                                     <label style={{ display: "block", fontSize: 12 }}>Profissional</label>

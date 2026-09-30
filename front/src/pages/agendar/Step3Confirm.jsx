@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useBooking } from "../../context/BookingContext"
 import { api } from "../../services/api";
@@ -7,8 +7,10 @@ import BookingConfirmStep from "../../components/booking/BookingConfirmStep";
 const Step3Confirm = () => {
     const navigate = useNavigate();
     const { bookingData, setBookingData, setBookingStep } = useBooking();
+    const [errorMessage, setErrorMessage] = useState("");
 
     const handleFinish = async (finalSelection) => {
+        setErrorMessage("");
         try {
             await api.createBooking({
                 service_id: finalSelection.serviceId,
@@ -24,16 +26,23 @@ const Step3Confirm = () => {
             navigate("/agendar/sucesso");
         } catch (error) {
             console.error("Erro ao finalizar agendamento:", error);
-            alert("Ocorreu um erro ao salvar seu agendamento. Por favor, tente novamente.");
+            setErrorMessage(error.message || "Ocorreu um erro ao salvar seu agendamento. Por favor, tente novamente.");
         }
     };
 
     return (
-        <BookingConfirmStep
-            bookingData={bookingData}
-            onBack={() => navigate("/agendar/professional")}
-            onFinish={handleFinish}
-        />
+        <>
+            {errorMessage && (
+                <p role="alert" style={{ color: "var(--danger, #b91c1c)", margin: "16px auto", maxWidth: 720 }}>
+                    {errorMessage}
+                </p>
+            )}
+            <BookingConfirmStep
+                bookingData={bookingData}
+                onBack={() => navigate("/agendar/professional")}
+                onFinish={handleFinish}
+            />
+        </>
     );
 };
 

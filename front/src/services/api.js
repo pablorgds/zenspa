@@ -147,7 +147,9 @@ export const api = {
             headers: getHeaders(),
             body: JSON.stringify(data),
         });
-        return res.json();
+        const body = await res.json();
+        if (!res.ok) throw { status: res.status, ...body };
+        return body;
     },
     async adminCancelBooking(id) {
         const res = await fetch(`${API_URL}/admin/bookings/${id}/cancel`, {
