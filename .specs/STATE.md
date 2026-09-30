@@ -8,10 +8,10 @@
 
 ## Handoff
 
-**Feature**: mvp-1-slot-integrity
-**Where**: C1–C27 verificados — `verification.md` PASS, `validate_verification.py` exit 0
+**Feature**: mvp-2-day-agenda
+**Where**: `checks.md` escrito — `validate_checks.py` exit 0. Profile light. Estimativa ~34k, one builder.
 **In progress**: none
-**Next step**: none para este item
+**Next step**: testes e implementação de C1–C55
 **Blockers**: none
-**Uncommitted**: none
-**Branch**: master, commits `1506ab7` `c4e7e96` `6efa64e` `0a67325`
+**Uncommitted**: `.specs/features/mvp-2-day-agenda/plan.md`, `.specs/features/mvp-2-day-agenda/checks.md`
+**Branch**: master
