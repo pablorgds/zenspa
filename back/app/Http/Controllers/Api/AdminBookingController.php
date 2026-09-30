@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
+use App\Services\SlotOccupancy;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -33,7 +35,7 @@ class AdminBookingController extends Controller
         $validated = $request->validate([
             'professional_id' => 'sometimes|required|exists:professionals,id',
             'date' => 'sometimes|required|date',
-            'time' => 'sometimes|required|string',
+            'time' => 'sometimes|required|date_format:H:i',
             'status' => [
                 'sometimes',
                 'required',
@@ -41,14 +43,60 @@ class AdminBookingController extends Controller
                     Booking::STATUS_PENDING,
                     Booking::STATUS_CONFIRMED,
                     Booking::STATUS_CANCELLED,
-                    Booking::STATUS_COMPLETED
-                ])
+                    Booking::STATUS_COMPLETED,
+                ]),
             ],
         ]);
 
-        $booking->update($validated);
+        $touchesSchedule = array_key_exists('professional_id', $validated)
+            || array_key_exists('date', $validated)
+            || array_key_exists('time', $validated);
 
-        return response()->json($booking);
+        if (! $touchesSchedule) {
+            $booking->update($validated);
+
+            return response()->json($booking);
+        }
+
+        $professionalId = (int) ($validated['professional_id'] ?? $booking->professional_id);
+        $date = Carbon::parse($validated['date'] ?? $booking->date)->toDateString();
+        $time = Carbon::parse($validated['time'] ?? $booking->time)->format('H:i');
+        $sameInterval = $professionalId === (int) $booking->professional_id
+            && $date === Carbon::parse($booking->date)->toDateString()
+            && $time === Carbon::parse($booking->time)->format('H:i');
+
+        if ($sameInterval) {
+            $booking->update($validated);
+
+            return response()->json($booking);
+        }
+
+        $duration = (int) $booking->service->duration_minutes;
+        $message = null;
+
+        $updated = SlotOccupancy::run($professionalId, function () use (&$message, $booking, $validated, $professionalId, $date, $time, $duration) {
+            if (! SlotOccupancy::fitsWindow($professionalId, $date, $time, $duration)) {
+                $message = 'Horário fora da disponibilidade do profissional.';
+
+                return null;
+            }
+
+            if (SlotOccupancy::overlaps($professionalId, $date, $time, $duration, $booking->id)) {
+                $message = 'Horário já reservado.';
+
+                return null;
+            }
+
+            $booking->update($validated);
+
+            return $booking;
+        });
+
+        if ($message !== null) {
+            return response()->json(['message' => $message], 422);
+        }
+
+        return response()->json($updated);
     }
 
     public function destroy(Booking $booking)

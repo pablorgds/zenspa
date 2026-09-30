@@ -2,10 +2,12 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
+use App\Models\Availability;
 use App\Models\Booking;
-use App\Models\Service;
 use App\Models\Professional;
+use App\Models\Service;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -14,8 +16,11 @@ class AdminBookingTest extends TestCase
     use RefreshDatabase;
 
     protected $admin;
+
     protected $user;
+
     protected $professional;
+
     protected $service;
 
     protected function setUp(): void
@@ -69,12 +74,22 @@ class AdminBookingTest extends TestCase
 
     public function test_admin_can_reschedule_booking()
     {
+        $this->service->update(['duration_minutes' => 60]);
+
         $booking = Booking::factory()->create([
             'user_id' => $this->user->id,
             'service_id' => $this->service->id,
             'professional_id' => $this->professional->id,
             'date' => '2026-03-20',
             'time' => '10:00',
+        ]);
+
+        Availability::create([
+            'professional_id' => $this->professional->id,
+            'day_of_week' => (string) Carbon::parse('2026-03-21')->dayOfWeek,
+            'start_time' => '09:00:00',
+            'end_time' => '18:00:00',
+            'slot_duration' => 60,
         ]);
 
         $response = $this->actingAs($this->admin)

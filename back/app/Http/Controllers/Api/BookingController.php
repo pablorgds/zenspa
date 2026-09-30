@@ -3,11 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Availability;
 use App\Models\Booking;
 use App\Models\Service;
 use App\Models\Transaction;
-use Carbon\Carbon;
+use App\Services\SlotOccupancy;
 use Illuminate\Http\Request;
 
 class BookingController extends Controller
@@ -52,50 +51,59 @@ class BookingController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'service_id'      => 'required|exists:services,id',
+            'service_id' => 'required|exists:services,id',
             'professional_id' => 'required|exists:professionals,id',
-            'date'            => 'required|date|after_or_equal:today',
-            'time'            => 'required|date_format:H:i',
-            'payment_method'  => 'required|in:cartao_credito,cartao_debito,pix,dinheiro',
+            'date' => 'required|date|after_or_equal:today',
+            'time' => 'required|date_format:H:i',
+            'payment_method' => 'required|in:cartao_credito,cartao_debito,pix,dinheiro',
         ]);
-
-        $dayOfWeek = Carbon::parse($validated['date'])->dayOfWeek;
-
-        $available = Availability::where('professional_id', $validated['professional_id'])
-            ->where('day_of_week', $dayOfWeek)
-            ->where('start_time', '<=', $validated['time'])
-            ->where('end_time', '>', $validated['time'])
-            ->exists();
-
-        if (!$available) {
-            return response()->json(['message' => 'Horário fora da disponibilidade do profissional.'], 422);
-        }
-
-        $conflict = Booking::where('professional_id', $validated['professional_id'])
-            ->where('date', $validated['date'])
-            ->where('time', $validated['time'])
-            ->whereNotIn('status', [Booking::STATUS_CANCELLED])
-            ->exists();
-
-        if ($conflict) {
-            return response()->json(['message' => 'Horário já reservado.'], 422);
-        }
 
         $service = Service::findOrFail($validated['service_id']);
+        $professionalId = (int) $validated['professional_id'];
+        $date = $validated['date'];
+        $time = $validated['time'];
+        $duration = (int) $service->duration_minutes;
+        $message = null;
 
-        $validated['price']   = $service->price;
-        $validated['user_id'] = $request->user()->id;
-        $validated['status']  = Booking::STATUS_PENDING;
+        $booking = SlotOccupancy::run($professionalId, function () use (&$message, $validated, $request, $service, $professionalId, $date, $time, $duration) {
+            if (SlotOccupancy::isPast($date, $time)) {
+                $message = 'Horário já passou.';
 
-        $booking = Booking::create($validated);
+                return null;
+            }
 
-        Transaction::create([
-            'booking_id'  => $booking->id,
-            'amount'      => $booking->price,
-            'type'        => 'entrada',
-            'description' => "Agendamento #{$booking->id}",
-        ]);
+            if (! SlotOccupancy::fitsWindow($professionalId, $date, $time, $duration)) {
+                $message = 'Horário fora da disponibilidade do profissional.';
 
-        return response()->json($booking->load(['service', 'professional']), 201);
+                return null;
+            }
+
+            if (SlotOccupancy::overlaps($professionalId, $date, $time, $duration)) {
+                $message = 'Horário já reservado.';
+
+                return null;
+            }
+
+            $validated['price'] = $service->price;
+            $validated['user_id'] = $request->user()->id;
+            $validated['status'] = Booking::STATUS_PENDING;
+
+            $booking = Booking::create($validated);
+
+            Transaction::create([
+                'booking_id' => $booking->id,
+                'amount' => $booking->price,
+                'type' => 'entrada',
+                'description' => "Agendamento #{$booking->id}",
+            ]);
+
+            return $booking->load(['service', 'professional']);
+        });
+
+        if ($message !== null) {
+            return response()->json(['message' => $message], 422);
+        }
+
+        return response()->json($booking, 201);
     }
 }

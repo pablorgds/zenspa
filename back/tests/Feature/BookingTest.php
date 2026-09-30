@@ -2,9 +2,9 @@
 
 namespace Tests\Feature;
 
-use App\Models\Professional;
 use App\Models\Availability;
 use App\Models\Booking;
+use App\Models\Professional;
 use App\Models\Service;
 use App\Models\User;
 use Carbon\Carbon;
@@ -71,6 +71,7 @@ class BookingTest extends TestCase
             'service_id' => $service->id,
             'date' => '2026-03-16',
             'time' => '09:00',
+            'status' => Booking::STATUS_CONFIRMED,
             'payment_method' => 'card',
             'price' => 100,
         ]);
@@ -102,25 +103,25 @@ class BookingTest extends TestCase
 
         Availability::create([
             'professional_id' => $pro->id,
-            'day_of_week'     => Carbon::MONDAY,
-            'start_time'      => '09:00:00',
-            'end_time'        => '18:00:00',
-            'slot_duration'   => 60,
+            'day_of_week' => Carbon::MONDAY,
+            'start_time' => '09:00:00',
+            'end_time' => '18:00:00',
+            'slot_duration' => 60,
         ]);
 
         $response = $this->actingAs($user)
             ->postJson('/api/bookings', [
-                'service_id'      => $service->id,
+                'service_id' => $service->id,
                 'professional_id' => $pro->id,
-                'date'            => $date,
-                'time'            => '09:00',
-                'payment_method'  => 'pix',
+                'date' => $date,
+                'time' => '09:00',
+                'payment_method' => 'pix',
             ]);
 
         $response->assertStatus(201);
         $this->assertDatabaseHas('bookings', [
             'user_id' => $user->id,
-            'time'    => '09:00',
+            'time' => '09:00',
         ]);
     }
 }

@@ -4,8 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Professional;
-use Illuminate\Http\Request;
+use App\Services\SlotOccupancy;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class ProfessionalController extends Controller
 {
@@ -25,6 +26,7 @@ class ProfessionalController extends Controller
         ]);
 
         $professional = Professional::create($validated);
+
         return response()->json($professional, 201);
     }
 
@@ -40,6 +42,7 @@ class ProfessionalController extends Controller
         ]);
 
         $professional->update($validated);
+
         return response()->json($professional);
     }
 
@@ -47,27 +50,27 @@ class ProfessionalController extends Controller
     {
         $professional = Professional::findOrFail($id);
         $professional->delete();
+
         return response()->json(null, 204);
     }
 
     public function availableSlots(Request $request, $id)
     {
         $date = $request->query('date'); // YYYY-MM-DD
-        if (!$date) {
+        if (! $date) {
             return response()->json(['message' => 'Date is required'], 400);
         }
 
         $carbonDate = Carbon::parse($date);
         $dayOfWeek = $carbonDate->dayOfWeek; // 0 (Sunday) to 6 (Saturday)
 
-        $professional = Professional::with(['availabilities' => function($query) use ($dayOfWeek) {
-            $query->where('day_of_week', (string)$dayOfWeek);
+        $professional = Professional::with(['availabilities' => function ($query) use ($dayOfWeek) {
+            $query->whereIn('day_of_week', [(string) $dayOfWeek, $dayOfWeek]);
         }])->findOrFail($id);
 
-        $existingBookings = $professional->bookings()
-            ->whereDate('date', $date)
-            ->pluck('time')
-            ->toArray();
+        $occupying = SlotOccupancy::occupying($professional->id, $date);
+        $now = Carbon::now();
+        $isToday = $carbonDate->isSameDay($now);
 
         $slots = [];
         foreach ($professional->availabilities as $availability) {
@@ -76,7 +79,9 @@ class ProfessionalController extends Controller
 
             while ($start->copy()->addMinutes($availability->slot_duration)->lte($end)) {
                 $slotTime = $start->format('H:i');
-                if (!in_array($slotTime, $existingBookings)) {
+                $slotAt = Carbon::parse($date.' '.$slotTime);
+                $hiddenByClock = $isToday && $slotAt->lt($now);
+                if (! $hiddenByClock && ! SlotOccupancy::pointOccupied($slotTime, $occupying)) {
                     $slots[] = $slotTime;
                 }
                 $start->addMinutes($availability->slot_duration);
