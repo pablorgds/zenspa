@@ -9,9 +9,9 @@
 ## Handoff
 
 **Feature**: mvp-1-slot-integrity
-**Where**: C1–C27 com prova verde no PHP do container `zenspa-api` e no `npm test` do front
-**In progress**: commits da feature
-**Next step**: verificação independente
+**Where**: C1–C27 verificados — `verification.md` PASS, `validate_verification.py` exit 0
+**In progress**: none
+**Next step**: none para este item
 **Blockers**: none
-**Uncommitted**: plano, checks, API, testes e telas
-**Branch**: conferir no commit
+**Uncommitted**: `.specs/features/mvp-1-slot-integrity/verification.md`
+**Branch**: master, commits `1506ab7` `c4e7e96` `6efa64e`
