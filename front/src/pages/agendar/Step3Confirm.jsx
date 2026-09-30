@@ -10,7 +10,6 @@ const Step3Confirm = () => {
 
     const handleFinish = async (finalSelection) => {
         try {
-            // Salva na API Laravel
             await api.createBooking({
                 service_id: finalSelection.serviceId,
                 professional_id: finalSelection.professionalId,

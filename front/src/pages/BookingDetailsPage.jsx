@@ -1,26 +1,27 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { loadBookings } from "../utils/bookingsStorage";
+import { api } from "../services/api";
 
 const formatCurrency = (value) =>
     value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
 const statusLabel = (status) => {
-    if (status === "confirmed") return "Confirmado";
-    if (status === "completed") return "Concluído";
-    if (status === "cancelled") return "Cancelado";
-    return "Desconhecido";
+    if (status === "confirmado") return "Confirmado";
+    if (status === "concluído") return "Concluído";
+    if (status === "cancelado") return "Cancelado";
+    if (status === "pendente") return "Pendente";
+    return status ?? "Desconhecido";
 };
 
 const statusStyle = (status) => {
-    if (status === "confirmed") {
+    if (status === "confirmado" || status === "pendente") {
         return {
             background: "var(--primary-light)",
             color: "var(--primary)",
             border: "1px solid rgba(46, 111, 108, 0.25)",
         };
     }
-    if (status === "completed") {
+    if (status === "concluído") {
         return {
             background: "rgba(34,197,94,0.08)",
             color: "rgba(22,101,52,1)",
@@ -37,11 +38,36 @@ const statusStyle = (status) => {
 const BookingDetailsPage = () => {
     const navigate = useNavigate();
     const { id } = useParams();
+    const [booking, setBooking] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-    const booking = useMemo(() => {
-        const all = loadBookings([]);
-        return all.find((b) => String(b.id) === String(id)) || null;
+    useEffect(() => {
+        api.getBooking(id)
+            .then(setBooking)
+            .catch(() => setError("Agendamento não encontrado ou você não tem permissão para visualizá-lo."))
+            .finally(() => setLoading(false));
     }, [id]);
+
+    const handleCancel = async () => {
+        if (!window.confirm("Deseja cancelar este agendamento?")) return;
+        try {
+            const updated = await api.cancelBooking(id);
+            setBooking(updated);
+        } catch {
+            setError("Não foi possível cancelar o agendamento. Tente novamente.");
+        }
+    };
+
+    if (loading) {
+        return (
+            <main className="section">
+                <div className="container" style={{ maxWidth: 760 }}>
+                    <p className="section-subtitle">Carregando agendamento...</p>
+                </div>
+            </main>
+        );
+    }
 
     if (!booking) {
         return (
@@ -51,7 +77,7 @@ const BookingDetailsPage = () => {
                         <div>
                             <h1 className="section-title">Detalhes do agendamento</h1>
                             <p className="section-subtitle">
-                                Não encontramos o agendamento solicitado.
+                                {error || "Não encontramos o agendamento solicitado."}
                             </p>
                         </div>
                         <button className="btn btn-outline" onClick={() => navigate("/meus-agendamentos")}>
@@ -64,7 +90,7 @@ const BookingDetailsPage = () => {
                             Agendamento não encontrado
                         </h3>
                         <p className="card-text">
-                            Ele pode ter sido removido do armazenamento local do navegador ou o link está incorreto.
+                            O link pode estar incorreto ou o agendamento foi removido.
                         </p>
                         <div style={{ marginTop: 10 }}>
                             <button className="btn btn-primary" onClick={() => navigate("/agendar")}>
@@ -205,18 +231,20 @@ const BookingDetailsPage = () => {
 
                             <button
                                 className="btn btn-primary"
-                                onClick={() => {
-                                    alert("Cancelamento por detalhes: em breve conectaremos ao backend.");
-                                }}
-                                disabled={booking.status !== "confirmed"}
+                                onClick={handleCancel}
+                                disabled={booking.status !== "confirmado" && booking.status !== "pendente"}
                                 title={
-                                    booking.status !== "confirmed"
-                                        ? "Cancelamento disponível apenas para agendamentos confirmados."
+                                    booking.status !== "confirmado" && booking.status !== "pendente"
+                                        ? "Cancelamento disponível apenas para agendamentos confirmados ou pendentes."
                                         : ""
                                 }
                             >
                                 Cancelar
                             </button>
+
+                            {error && (
+                                <p style={{ fontSize: 12, color: "rgba(153,27,27,1)", marginTop: 4 }}>{error}</p>
+                            )}
 
                             <div style={{ fontSize: 12, color: "var(--muted)", marginTop: 6 }}>
                                 Em breve: reagendamento inteligente, comprovante e suporte via WhatsApp.

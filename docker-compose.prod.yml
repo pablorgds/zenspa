@@ -15,14 +15,13 @@ services:
       context: ./back
       dockerfile: Dockerfile
     container_name: zenspa-api-prod
+    env_file:
+      - .env.docker
     environment:
       - APP_ENV=production
       - DB_CONNECTION=mysql
       - DB_HOST=zenspa-db
       - DB_PORT=3306
-      - DB_DATABASE=zenspa
-      - DB_USERNAME=zenspa_user
-      - DB_PASSWORD=zenspa_pass
     networks:
       - zenspa-network
 

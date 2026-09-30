@@ -14,27 +14,70 @@ import Step4Success from "./pages/agendar/Step4Success";
 import MyBookingsPage from "./pages/MyBookingsPage";
 import BookingDetailsPage from "./pages/BookingDetailsPage";
 
+import LoginPage from "./pages/auth/LoginPage";
+import RegisterPage from "./pages/auth/RegisterPage";
+
+import AdminDashboard from "./pages/admin/AdminDashboard";
+
+import PrivateRoute from "./components/PrivateRoute";
+import { AuthProvider } from "./context/AuthContext";
+
 import "./styles/global.css";
 
 function App() {
     return (
-        <BookingProvider>
-            <BrowserRouter>
-                <Routes>
-                    <Route path="/" element={<LandingPage />} />
+        <AuthProvider>
+            <BookingProvider>
+                <BrowserRouter>
+                    <Routes>
+                        <Route path="/" element={<LandingPage />} />
+                        <Route path="/login" element={<LoginPage />} />
+                        <Route path="/registrar" element={<RegisterPage />} />
 
-                    {/* AGENDAMENTO */}
-                    <Route path="/agendar" element={<Step1Start />} />
-                    <Route path="/agendar/profissional" element={<Step2Professional />} />
-                    <Route path="/agendar/confirmacao" element={<Step3Confirm />} />
-                    <Route path="/agendar/sucesso" element={<Step4Success />} />
+                        {/* ADMIN */}
+                        <Route path="/admin" element={
+                            <PrivateRoute adminOnly>
+                                <AdminDashboard />
+                            </PrivateRoute>
+                        } />
 
-                    {/* PÁGINA DE AGENDAMENTOS */}
-                    <Route path="/meus-agendamentos" element={<MyBookingsPage />} />
-                    <Route path="/meus-agendamentos/:id" element={<BookingDetailsPage />} />
-                </Routes>
-            </BrowserRouter>
-        </BookingProvider>
+                        {/* AGENDAMENTO */}
+                        <Route path="/agendar" element={
+                            <PrivateRoute>
+                                <Step1Start />
+                            </PrivateRoute>
+                        } />
+                        <Route path="/agendar/profissional" element={
+                            <PrivateRoute>
+                                <Step2Professional />
+                            </PrivateRoute>
+                        } />
+                        <Route path="/agendar/confirmacao" element={
+                            <PrivateRoute>
+                                <Step3Confirm />
+                            </PrivateRoute>
+                        } />
+                        <Route path="/agendar/sucesso" element={
+                            <PrivateRoute>
+                                <Step4Success />
+                            </PrivateRoute>
+                        } />
+
+                        {/* PÁGINA DE AGENDAMENTOS */}
+                        <Route path="/meus-agendamentos" element={
+                            <PrivateRoute>
+                                <MyBookingsPage />
+                            </PrivateRoute>
+                        } />
+                        <Route path="/meus-agendamentos/:id" element={
+                            <PrivateRoute>
+                                <BookingDetailsPage />
+                            </PrivateRoute>
+                        } />
+                    </Routes>
+                </BrowserRouter>
+            </BookingProvider>
+        </AuthProvider>
     );
 }
 

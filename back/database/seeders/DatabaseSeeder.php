@@ -15,6 +15,23 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // Limpar tabelas para evitar duplicidade durante o desenvolvimento
+        \Illuminate\Support\Facades\Schema::disableForeignKeyConstraints();
+        \App\Models\User::truncate();
+        \App\Models\Service::truncate();
+        \App\Models\Professional::truncate();
+        \App\Models\Availability::truncate();
+        \App\Models\Booking::truncate();
+        \Illuminate\Support\Facades\Schema::enableForeignKeyConstraints();
+
+        // Admin User
+        \App\Models\User::create([
+            'name' => 'Admin ZenSpa',
+            'email' => 'admin@zenspa.com',
+            'password' => \Illuminate\Support\Facades\Hash::make('admin123'),
+            'is_admin' => true,
+        ]);
+
         // Serviços
         $s1 = \App\Models\Service::create([
             'name' => 'Massagem relaxante',
@@ -41,25 +58,38 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // Profissionais
-        \App\Models\Professional::create([
+        $p1 = \App\Models\Professional::create([
             'name' => 'Ana Paula',
             'role' => 'Massoterapeuta',
             'rating' => 4.9,
             'specialties' => ['Massagem relaxante', 'Drenagem linfática'],
         ]);
 
-        \App\Models\Professional::create([
+        $p2 = \App\Models\Professional::create([
             'name' => 'Bruno Oliveira',
             'role' => 'Massoterapeuta Desportivo',
             'rating' => 4.8,
             'specialties' => ['Massagem desportiva', 'Massagem relaxante'],
         ]);
 
-        \App\Models\Professional::create([
+        $p3 = \App\Models\Professional::create([
             'name' => 'Carla Mendes',
             'role' => 'Esteticista',
             'rating' => 5.0,
             'specialties' => ['Limpeza de pele profunda', 'Tratamentos faciais'],
         ]);
+
+        // Disponibilidades (Segunda a Sexta, 09:00 às 18:00 para todos)
+        foreach ([$p1, $p2, $p3] as $p) {
+            for ($day = 1; $day <= 5; $day++) {
+                \App\Models\Availability::create([
+                    'professional_id' => $p->id,
+                    'day_of_week' => (string)$day,
+                    'start_time' => '09:00:00',
+                    'end_time' => '18:00:00',
+                    'slot_duration' => 60,
+                ]);
+            }
+        }
     }
 }

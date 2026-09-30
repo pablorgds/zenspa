@@ -23,13 +23,12 @@ services:
     container_name: zenspa-api
     volumes:
       - ./back:/var/www
+    env_file:
+      - .env.docker
     environment:
       - DB_CONNECTION=mysql
       - DB_HOST=zenspa-db
       - DB_PORT=3306
-      - DB_DATABASE=zenspa
-      - DB_USERNAME=zenspa_user
-      - DB_PASSWORD=zenspa_pass
     depends_on:
       - zenspa-db
     networks:
@@ -52,12 +51,14 @@ services:
     image: mysql:8.0
     container_name: zenspa-db
     ports:
-      - "3306:3306"
+      - "3307:3306"
+    env_file:
+      - .env.docker
     environment:
-      - MYSQL_DATABASE=zenspa
-      - MYSQL_USER=zenspa_user
-      - MYSQL_PASSWORD=zenspa_pass
-      - MYSQL_ROOT_PASSWORD=root_pass
+      - MYSQL_DATABASE=${DB_DATABASE}
+      - MYSQL_USER=${DB_USERNAME}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
     volumes:
       - mysql_data:/var/lib/mysql
     networks:

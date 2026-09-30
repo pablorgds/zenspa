@@ -1,20 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../../styles/quick-booking.css";
+
+import { api } from "../../services/api";
 
 /**
  * onSubmit(data)
- * data = { categoria, servico, data, periodo }
+ * data = { categoria, servico, serviceId, price, data, periodo }
  */
 const QuickBooking = ({ onSubmit }) => {
     const today = new Date().toISOString().split("T")[0];
+    const [services, setServices] = useState([]);
+
+    useEffect(() => {
+        api.getServices().then(setServices).catch(() => {});
+    }, []);
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
         const form = e.target;
+        const serviceName = form.servico.value;
+        const service = services.find(s => s.name === serviceName);
 
         const data = {
             categoria: form.tipoServico.value,
-            servico: form.servico.value,
+            servico: serviceName,
+            serviceId: service?.id,
+            price: service?.price,
             data: form.data.value,
             periodo: form.periodo.value,
         };
@@ -54,12 +66,11 @@ const QuickBooking = ({ onSubmit }) => {
                         <label htmlFor="servico">Serviço</label>
                         <select id="servico" name="servico" defaultValue="" required>
                             <option value="" disabled>
-                                Escolha um serviço
+                                {services.length === 0 ? "Carregando..." : "Escolha um serviço"}
                             </option>
-                            <option>Massagem relaxante</option>
-                            <option>Drenagem linfática</option>
-                            <option>Limpeza de pele</option>
-                            <option>Pacote combo spa</option>
+                            {services.map(s => (
+                                <option key={s.id}>{s.name}</option>
+                            ))}
                         </select>
                     </div>
 
