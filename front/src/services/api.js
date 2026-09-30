@@ -141,6 +141,26 @@ export const api = {
         });
         return res.json();
     },
+    async adminGetAgenda(date, professionalId) {
+        const params = new URLSearchParams({ date });
+        if (professionalId) params.set("professional_id", professionalId);
+        const res = await fetch(`${API_URL}/admin/agenda?${params}`, {
+            headers: getHeaders(),
+        });
+        const body = await res.json();
+        if (!res.ok) throw { status: res.status, ...body };
+        return body;
+    },
+    async adminCreateBooking(data) {
+        const res = await fetch(`${API_URL}/admin/bookings`, {
+            method: "POST",
+            headers: getHeaders(),
+            body: JSON.stringify(data),
+        });
+        const body = await res.json();
+        if (!res.ok) throw { status: res.status, ...body };
+        return body;
+    },
     async adminUpdateBooking(id, data) {
         const res = await fetch(`${API_URL}/admin/bookings/${id}`, {
             method: "PUT",

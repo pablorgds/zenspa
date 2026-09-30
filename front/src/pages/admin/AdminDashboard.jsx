@@ -299,6 +299,9 @@ const AdminDashboard = () => {
                     >
                         Financeiro
                     </button>
+                    <Link to="/admin/agenda" className="btn btn-outline" style={{ textDecoration: "none" }}>
+                        Agenda do dia
+                    </Link>
                 </div>
 
                 {activeTab === "services" && (

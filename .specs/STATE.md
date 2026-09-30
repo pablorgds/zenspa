@@ -9,9 +9,9 @@
 ## Handoff
 
 **Feature**: mvp-2-day-agenda
-**Where**: `checks.md` escrito — `validate_checks.py` exit 0. Profile light. Estimativa ~34k, one builder.
+**Where**: C1–C55 no código. API em `8bd4243`. Provas verdes. Falta o Verifier.
 **In progress**: none
-**Next step**: testes e implementação de C1–C55
+**Next step**: Verifier independente sobre `6498bc6..HEAD`
 **Blockers**: none
-**Uncommitted**: `.specs/features/mvp-2-day-agenda/plan.md`, `.specs/features/mvp-2-day-agenda/checks.md`
+**Uncommitted**: none
 **Branch**: master

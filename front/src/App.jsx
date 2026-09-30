@@ -18,6 +18,7 @@ import LoginPage from "./pages/auth/LoginPage";
 import RegisterPage from "./pages/auth/RegisterPage";
 
 import AdminDashboard from "./pages/admin/AdminDashboard";
+import DayAgenda from "./pages/admin/DayAgenda";
 
 import PrivateRoute from "./components/PrivateRoute";
 import { AuthProvider } from "./context/AuthContext";
@@ -38,6 +39,11 @@ function App() {
                         <Route path="/admin" element={
                             <PrivateRoute adminOnly>
                                 <AdminDashboard />
+                            </PrivateRoute>
+                        } />
+                        <Route path="/admin/agenda" element={
+                            <PrivateRoute adminOnly>
+                                <DayAgenda />
                             </PrivateRoute>
                         } />
 

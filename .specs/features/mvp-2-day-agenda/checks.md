@@ -225,3 +225,7 @@ Medido com o tamanho dos arquivos que cada fatia toca, dividido por 4. Arquivos 
 - S1 = 15113 B já no disco (`AdminBookingController.php` 3634, `ProfessionalController.php` 2961, `SlotOccupancy.php` 4069, `Professional.php` 551, `Availability.php` 361, `Booking.php` 841, `api.php` 2696) + 12 KB de `DayAgendaTest` ≈ 27 KB → ~7k
 - S2 soma `BookingController.php` 3651, `User.php` 1058, `Transaction.php` 350, `Service.php` 367 + 16 KB de `AdminEncaixeTest` ≈ 21 KB → ~5k; acumulado ~12k
 - S3 entra na UI em `AdminDashboard.jsx` 52212, `api.js` 7830, `App.jsx` 3162 + 8 KB da tela e 18 KB de teste ≈ 90 KB → ~22k; acumulado ~34k, abaixo do orçamento de 150k — one builder
+
+- **Boundary:** C1–C55 fechados
+- **Settled mid-build:** a lista livre da agenda é `SlotOccupancy::freeSlots`, o mesmo cálculo de `ProfessionalController::availableSlots`
+- **Abandoned:** none
