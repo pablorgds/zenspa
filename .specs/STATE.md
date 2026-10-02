@@ -10,9 +10,9 @@
 ## Handoff
 
 **Feature**: mvp-3-punctual-blocks
-**Where**: `plan.md` aprovado; `checks.md` C1–C35 escrito — sem código
+**Where**: C1–C35 implementados — provas PHP e Vitest verdes neste ambiente
 **In progress**: none
-**Next step**: build a partir dos checks (testes HTTP, depois tela)
+**Next step**: Verifier sobre `6a9aa53..HEAD`
 **Blockers**: none
 **Uncommitted**: none
 **Branch**: cursor/mvp-3-punctual-blocks-plan-27b6

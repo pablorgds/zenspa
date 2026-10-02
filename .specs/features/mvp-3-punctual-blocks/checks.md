@@ -166,3 +166,8 @@ Medido com o tamanho dos arquivos que cada fatia toca, dividido por 4. Arquivos 
 - S3 entra em `BookingController.php` 3651 e `AdminBookingController.php` 9462 + 10 KB de teste ≈ 23 KB → ~6k; acumulado ~17k
 - S4 reusa o POST/PUT do S1; + 10 KB `ProfessionalBlockConflictTest` ≈ 10 KB → ~3k; acumulado ~20k
 - S5 entra na UI em `AdminDashboard.jsx` 51511, `api.js` 8380 + 12 KB de teste ≈ 72 KB → ~18k; acumulado ~38k, abaixo do orçamento de 150k — one builder
+- Mechanism: one builder
+
+- **Boundary:** C1–C27 closed at `8f34cd9`; C28–C35 closed at `e1dd717`
+- **Settled mid-build:** JSON de `starts_at`/`ends_at` no GET é `Y-m-d H:i:s`, o mesmo formato do corpo
+- **Abandoned:** none
