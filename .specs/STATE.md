@@ -10,9 +10,9 @@
 ## Handoff
 
 **Feature**: mvp-3-punctual-blocks
-**Where**: `plan.md` escrito — sem `checks.md` até revisão humana
-**In progress**: `.specs/features/mvp-3-punctual-blocks/plan.md`
-**Next step**: confirmar o plano; depois derivar `checks.md`
-**Blockers**: revisão humana do plano
+**Where**: `plan.md` aprovado; `checks.md` C1–C35 escrito — sem código
+**In progress**: none
+**Next step**: build a partir dos checks (testes HTTP, depois tela)
+**Blockers**: none
 **Uncommitted**: none
 **Branch**: cursor/mvp-3-punctual-blocks-plan-27b6
