@@ -8,10 +8,10 @@
 
 ## Handoff
 
-**Feature**: mvp-1-slot-integrity
-**Where**: C1–C27 verificados — `verification.md` PASS, `validate_verification.py` exit 0
-**In progress**: none
-**Next step**: none para este item
-**Blockers**: none
+**Feature**: mvp-2-reception-agenda
+**Where**: `plan.md` escrito — aguarda revisão humana; `checks.md` ainda não existe
+**In progress**: `.specs/features/mvp-2-reception-agenda/plan.md`
+**Next step**: confirmar o plano (aba Agenda vs rota SPA; envelope JSON) e só então escrever `checks.md`
+**Blockers**: none — defaults em Assumptions com Confirmed? n
 **Uncommitted**: none
-**Branch**: master, commits `1506ab7` `c4e7e96` `6efa64e` `0a67325`
+**Branch**: cursor/mvp-2-reception-agenda-e659
