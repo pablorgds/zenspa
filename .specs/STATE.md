@@ -10,9 +10,9 @@
 ## Handoff
 
 **Feature**: mvp-3-punctual-blocks
-**Where**: C1–C35 implementados — provas PHP e Vitest verdes neste ambiente
+**Where**: C1–C35 verificados — `verification.md` PASS, `validate_verification.py` exit 0
 **In progress**: none
-**Next step**: Verifier sobre `6a9aa53..HEAD`
+**Next step**: none para este item
 **Blockers**: none
 **Uncommitted**: none
 **Branch**: cursor/mvp-3-punctual-blocks-plan-27b6
