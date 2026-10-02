@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Professional extends Model
 {
     use HasFactory;
+
     protected $fillable = ['name', 'role', 'avatar', 'rating', 'specialties'];
 
     protected $casts = [
@@ -23,5 +24,10 @@ class Professional extends Model
     public function bookings()
     {
         return $this->hasMany(Booking::class);
+    }
+
+    public function blocks()
+    {
+        return $this->hasMany(Block::class);
     }
 }

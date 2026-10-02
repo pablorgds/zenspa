@@ -132,6 +132,12 @@ class AdminBookingController extends Controller
                 return null;
             }
 
+            if (SlotOccupancy::blocked($professionalId, $date, $time, $duration)) {
+                $message = 'Horário bloqueado.';
+
+                return null;
+            }
+
             $booking = Booking::create([
                 'user_id' => $user->id,
                 'service_id' => $service->id,
@@ -232,6 +238,12 @@ class AdminBookingController extends Controller
 
             if (SlotOccupancy::overlaps($professionalId, $date, $time, $duration, $booking->id)) {
                 $message = 'Horário já reservado.';
+
+                return null;
+            }
+
+            if (SlotOccupancy::blocked($professionalId, $date, $time, $duration)) {
+                $message = 'Horário bloqueado.';
 
                 return null;
             }
