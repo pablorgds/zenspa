@@ -8,10 +8,10 @@
 
 ## Handoff
 
-**Feature**: mvp-1-slot-integrity
-**Where**: C1–C27 verificados — `verification.md` PASS, `validate_verification.py` exit 0
-**In progress**: none
-**Next step**: none para este item
-**Blockers**: none
+**Feature**: mvp-2-day-agenda
+**Where**: `plan.md` escrito — sem `checks.md` até revisão humana
+**In progress**: `.specs/features/mvp-2-day-agenda/plan.md`
+**Next step**: confirmar o plano; depois derivar `checks.md`
+**Blockers**: revisão humana do plano
 **Uncommitted**: none
-**Branch**: master, commits `1506ab7` `c4e7e96` `6efa64e` `0a67325`
+**Branch**: cursor/mvp-2-day-agenda-plan-27b6
