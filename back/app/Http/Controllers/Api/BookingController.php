@@ -84,6 +84,12 @@ class BookingController extends Controller
                 return null;
             }
 
+            if (SlotOccupancy::blocked($professionalId, $date, $time, $duration)) {
+                $message = 'Horário bloqueado.';
+
+                return null;
+            }
+
             $validated['price'] = $service->price;
             $validated['user_id'] = $request->user()->id;
             $validated['status'] = Booking::STATUS_PENDING;

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AdminAvailabilityController;
+use App\Http\Controllers\Api\AdminBlockController;
 use App\Http\Controllers\Api\AdminBookingController;
 use App\Http\Controllers\Api\AdminFinancialController;
 use App\Http\Controllers\Api\AuthController;
@@ -36,6 +37,10 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/professionals/{professional}/availabilities', [AdminAvailabilityController::class, 'store']);
         Route::put('/professionals/{professional}/availabilities/{availability}', [AdminAvailabilityController::class, 'update']);
         Route::delete('/professionals/{professional}/availabilities/{availability}', [AdminAvailabilityController::class, 'destroy']);
+        Route::get('/professionals/{professional}/blocks', [AdminBlockController::class, 'index']);
+        Route::post('/professionals/{professional}/blocks', [AdminBlockController::class, 'store']);
+        Route::put('/professionals/{professional}/blocks/{block}', [AdminBlockController::class, 'update']);
+        Route::delete('/professionals/{professional}/blocks/{block}', [AdminBlockController::class, 'destroy']);
         Route::get('/financial/summary', [AdminFinancialController::class, 'summary']);
         Route::get('/financial/transactions', [AdminFinancialController::class, 'transactions']);
     });

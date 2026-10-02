@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Availability;
+use App\Models\Block;
 use App\Models\Booking;
 use App\Models\Professional;
 use Carbon\Carbon;
@@ -112,6 +113,7 @@ class SlotOccupancy
             ->whereIn('day_of_week', [(string) $dayOfWeek, $dayOfWeek])
             ->get();
         $occupying = self::occupying($professionalId, $date);
+        $blocks = Block::query()->where('professional_id', $professionalId)->get();
         $now = Carbon::now();
         $isToday = $carbonDate->isSameDay($now);
         $slots = [];
@@ -124,7 +126,7 @@ class SlotOccupancy
                 $slotTime = $start->format('H:i');
                 $slotAt = Carbon::parse($date.' '.$slotTime);
                 $hiddenByClock = $isToday && $slotAt->lt($now);
-                if (! $hiddenByClock && ! self::pointOccupied($slotTime, $occupying)) {
+                if (! $hiddenByClock && ! self::pointOccupied($slotTime, $occupying) && ! self::pointBlocked($date, $slotTime, $blocks)) {
                     $slots[] = $slotTime;
                 }
                 $start->addMinutes($availability->slot_duration);
@@ -132,6 +134,47 @@ class SlotOccupancy
         }
 
         return $slots;
+    }
+
+    public static function blocked(int $professionalId, string $date, string $time, int $durationMinutes): bool
+    {
+        $start = Carbon::parse($date.' '.$time);
+        $end = $start->copy()->addMinutes($durationMinutes);
+
+        foreach (Block::query()->where('professional_id', $professionalId)->get() as $block) {
+            if ($start->lt($block->ends_at) && $block->starts_at->lt($end)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public static function occupyingIdsIn(int $professionalId, Carbon $starts, Carbon $ends): array
+    {
+        $from = $starts->toDateString();
+        $to = $ends->copy()->subSecond()->toDateString();
+        $ids = [];
+
+        $bookings = Booking::query()
+            ->with('service')
+            ->where('professional_id', $professionalId)
+            ->whereIn('status', self::OCCUPYING)
+            ->whereDate('date', '>=', $from)
+            ->whereDate('date', '<=', $to)
+            ->orderBy('id')
+            ->get();
+
+        foreach ($bookings as $booking) {
+            $otherStart = Carbon::parse($booking->date.' '.Carbon::parse($booking->time)->format('H:i'));
+            $otherEnd = $otherStart->copy()->addMinutes((int) $booking->service->duration_minutes);
+
+            if ($starts->lt($otherEnd) && $otherStart->lt($ends)) {
+                $ids[] = $booking->id;
+            }
+        }
+
+        return $ids;
     }
 
     public static function occupying(int $professionalId, string $date, ?int $exceptId = null): Collection
@@ -143,6 +186,19 @@ class SlotOccupancy
             ->whereIn('status', self::OCCUPYING)
             ->when($exceptId, fn ($query) => $query->where('id', '!=', $exceptId))
             ->get();
+    }
+
+    public static function pointBlocked(string $date, string $point, Collection $blocks): bool
+    {
+        $at = Carbon::parse($date.' '.$point);
+
+        foreach ($blocks as $block) {
+            if ($at->gte($block->starts_at) && $at->lt($block->ends_at)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private static function minutes(string $time): int
