@@ -5,13 +5,14 @@
 | ID | Decision | Rationale | Status | Date |
 | --- | --- | --- | --- | --- |
 | AD-001 | Ocupação de intervalo do profissional é decidida dentro de uma transação que faz `lockForUpdate` na linha do profissional antes de inserir ou reagendar | MySQL 8 não tem exclusion constraint; índice único em `(professional_id, date, time)` não reabre horário `cancelado` nem expressa cruzamento por `duration_minutes`. MVP-2 reutiliza a mesma trava. | active | 2026-09-30 |
+| AD-002 | Bloqueio pontual é um intervalo meio-aberto `[starts_at, ends_at)` de um profissional; grade e escrita de booking descontam esse intervalo. Gravá-lo recusa ocupante sem apagar `Booking` e devolve `booking_ids`. | a grade semanal (`Availability`) não expressa folga de um dia; apagar ocupante perderia histórico. MVP-4 e MVP-5 reusam o mesmo intervalo. | active | 2026-10-02 |
 
 ## Handoff
 
-**Feature**: mvp-2-day-agenda
-**Where**: C1–C55 fechados. Verifier PASS em `verification.md`. `validate_verification.py` exit 0.
-**In progress**: none
-**Next step**: MVP-3 no roadmap
-**Blockers**: none
+**Feature**: mvp-3-punctual-blocks
+**Where**: `plan.md` escrito — sem `checks.md` até revisão humana
+**In progress**: `.specs/features/mvp-3-punctual-blocks/plan.md`
+**Next step**: confirmar o plano; depois derivar `checks.md`
+**Blockers**: revisão humana do plano
 **Uncommitted**: none
-**Branch**: master
+**Branch**: cursor/mvp-3-punctual-blocks-plan-27b6
